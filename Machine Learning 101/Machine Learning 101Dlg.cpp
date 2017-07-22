@@ -74,7 +74,17 @@ void CMachineLearning101Dlg::OnPaint()
 	}
 	else
 	{
-		CDialogEx::OnPaint();
+		CPaintDC dc(this);
+		CRect rect;
+		GetClientRect(&rect);
+		//ScreenToClient(rect);
+		BITMAP bmp;
+		HBITMAP hBmp = ::LoadBitmap(::AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BACKPCT));
+		::GetObject(hBmp, sizeof(bmp), &bmp);
+		HDC hDC = ::CreateCompatibleDC(NULL);
+		SelectObject(hDC, hBmp);
+		::BitBlt(dc.m_hDC, 0, 0, rect.Width(), rect.Height(), hDC, 0, 0, SRCCOPY);
+		CDialog::OnPaint();
 	}
 }
 
