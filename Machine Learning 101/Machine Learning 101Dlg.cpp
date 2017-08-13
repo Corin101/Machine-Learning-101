@@ -30,6 +30,7 @@ void CMachineLearning101Dlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CMachineLearning101Dlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_RULES, &CMachineLearning101Dlg::OnBnClickedRules)
 END_MESSAGE_MAP()
 
 
@@ -95,3 +96,17 @@ HCURSOR CMachineLearning101Dlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CMachineLearning101Dlg::OnBnClickedRules()
+{
+	CWnd *label = GetDlgItem(IDC_RULESTEXT);
+	if (!label->IsWindowVisible())
+	{
+		label->ShowWindow(TRUE);
+	}
+	else
+	{
+		label->ShowWindow(FALSE);
+	}
+}
