@@ -25,12 +25,15 @@ CMachineLearning101Dlg::CMachineLearning101Dlg(CWnd* pParent /*=NULL*/)
 void CMachineLearning101Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_CBBOXSTARTINGPLAYER, CComboBox);
 }
 
 BEGIN_MESSAGE_MAP(CMachineLearning101Dlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_RULES, &CMachineLearning101Dlg::OnBnClickedRules)
+	ON_BN_CLICKED(IDC_EXITGAME, &CMachineLearning101Dlg::OnBnClickedExitgame)
+	ON_BN_CLICKED(IDC_STARTGAME, &CMachineLearning101Dlg::OnBnClickedStartgame)
 END_MESSAGE_MAP()
 
 
@@ -44,7 +47,9 @@ BOOL CMachineLearning101Dlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-
+	CComboBox.AddString(_T("Player1"));
+	CComboBox.AddString(_T("Player2"));
+	CComboBox.SetCurSel(0);
 	// TODO: Add extra initialization here
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -75,17 +80,22 @@ void CMachineLearning101Dlg::OnPaint()
 	}
 	else
 	{
-		CPaintDC dc(this);
-		CRect rect;
-		GetClientRect(&rect);
-		//ScreenToClient(rect);
-		BITMAP bmp;
-		HBITMAP hBmp = ::LoadBitmap(::AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BACKPCT));
-		::GetObject(hBmp, sizeof(bmp), &bmp);
-		HDC hDC = ::CreateCompatibleDC(NULL);
-		SelectObject(hDC, hBmp);
-		::BitBlt(dc.m_hDC, 0, 0, rect.Width(), rect.Height(), hDC, 0, 0, SRCCOPY);
-		CDialog::OnPaint();
+		if (!flag)
+		{
+			CPaintDC dc(this);
+			CRect rect;
+			GetClientRect(&rect);
+			//ScreenToClient(rect);
+			BITMAP bmp;
+			HBITMAP hBmp = ::LoadBitmap(::AfxGetInstanceHandle(), MAKEINTRESOURCE(IDB_BACKPCT));
+			::GetObject(hBmp, sizeof(bmp), &bmp);
+			HDC hDC = ::CreateCompatibleDC(NULL);
+			SelectObject(hDC, hBmp);
+			::BitBlt(dc.m_hDC, 0, 0, rect.Width(), rect.Height(), hDC, 0, 0, SRCCOPY);
+			CDialog::OnPaint();
+		}
+		else
+			CDialog::OnPaint();
 	}
 }
 
@@ -108,5 +118,34 @@ void CMachineLearning101Dlg::OnBnClickedRules()
 	else
 	{
 		label->ShowWindow(FALSE);
+	}
+}
+
+
+void CMachineLearning101Dlg::OnBnClickedExitgame()
+{
+	EndDialog(TRUE);
+}
+
+
+void CMachineLearning101Dlg::OnBnClickedStartgame()
+{
+	if (!flag)
+	{
+		flag = TRUE;
+		AfxGetMainWnd()->Invalidate();
+		GetDlgItem(IDC_STATICPLAYER1)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATICPLAYER2)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATICSTARTINGPLAYER)->ShowWindow(TRUE);
+		GetDlgItem(IDC_PLAYER1NAME)->ShowWindow(TRUE);
+		GetDlgItem(IDC_PLAYER2NAME)->ShowWindow(TRUE);
+		GetDlgItem(IDC_CBBOXSTARTINGPLAYER)->ShowWindow(TRUE);
+		GetDlgItem(IDC_GAMEWINDOW)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RULES)->ShowWindow(TRUE);
+	}
+	else
+	{
+
+
 	}
 }

@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "afxwin.h"
 
 
 // CMachineLearning101Dlg dialog
@@ -24,6 +25,7 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
+	BOOL flag = false;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -32,4 +34,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedRules();
+	afx_msg void OnBnClickedExitgame();
+	afx_msg void OnBnClickedStartgame();
+protected:
+	CComboBox CComboBox;
 };
