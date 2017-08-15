@@ -47,8 +47,8 @@ BOOL CMachineLearning101Dlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	CComboBox.AddString(_T("Player1"));
-	CComboBox.AddString(_T("Player2"));
+	CComboBox.AddString(LoadMyString(IDS_PLAYER1NAME));
+	CComboBox.AddString(LoadMyString(IDS_PLAYER2NAME));
 	CComboBox.SetCurSel(0);
 	// TODO: Add extra initialization here
 
@@ -148,4 +148,11 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 
 
 	}
+}
+
+CString CMachineLearning101Dlg::LoadMyString(UINT nID)
+{
+	CString myString;
+	myString.LoadString(nID);
+	return myString;
 }

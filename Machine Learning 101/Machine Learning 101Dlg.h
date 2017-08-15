@@ -36,6 +36,7 @@ public:
 	afx_msg void OnBnClickedRules();
 	afx_msg void OnBnClickedExitgame();
 	afx_msg void OnBnClickedStartgame();
+	CString LoadMyString(UINT nID);
 protected:
 	CComboBox CComboBox;
 };
