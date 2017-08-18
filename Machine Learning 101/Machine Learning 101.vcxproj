@@ -182,6 +182,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Machine Learning 101.h" />
     <ClInclude Include="Machine Learning 101Dlg.h" />
     <ClInclude Include="Resource.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameConfig.cpp" />
     <ClCompile Include="Machine Learning 101.cpp" />
     <ClCompile Include="Machine Learning 101Dlg.cpp" />
     <ClCompile Include="stdafx.cpp">

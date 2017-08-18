@@ -6,6 +6,7 @@
 #include "Machine Learning 101.h"
 #include "Machine Learning 101Dlg.h"
 #include "afxdialogex.h"
+#include "GameConfig.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -145,8 +146,8 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 	}
 	else
 	{
-
-
+		GameConfig newGame;
+		bool test = newGame.InitPool(newGame.numberOfSticks);
 	}
 }
 
