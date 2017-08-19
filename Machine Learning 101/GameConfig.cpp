@@ -11,11 +11,12 @@ GameConfig::GameConfig()
 
 GameConfig::~GameConfig()
 {
+	SaveToFile();
 }
 
 void GameConfig::InitPool()
 {
-	if (!OpenFile())
+	if (!OpenFile(true))
 	{
 		for (size_t i = 0; i < pool.size(); ++i)
 		{
@@ -40,10 +41,16 @@ void GameConfig::InitPool()
 	else
 		LoadFromFile();
 }
-
-bool GameConfig::OpenFile()
+// Open File::
+//		- option == True - open file for reading
+//		- option == false - open file for writing
+bool GameConfig::OpenFile(bool option)
 {
-	mySaveFile.open("C:\\Users\\Corin\\Documents\\Visual Studio 2017\\Projects\\Machine Learning 101\\Debug\\save.txt");
+	if (option)
+		mySaveFile.open("save.txt",fstream::in);
+	else
+		mySaveFile.open("save.txt", fstream::out);
+
 	if (mySaveFile)
 		return true;
 	return false;
@@ -66,6 +73,24 @@ void GameConfig::LoadFromFile()
 			int value = *it - '0';
 			pool[i].insert(li, value);
 		}
+	}
+	mySaveFile.close();
+}
+
+void GameConfig::SaveToFile()
+{
+	OpenFile(false);
+	for (size_t i = 0; i < pool.size(); ++i)
+	{
+		list<int>::iterator li;
+		string stringLine;
+
+		for (li = pool[i].begin(); li != pool[i].end(); li++)
+		{
+			stringLine.append(to_string(*li));
+			stringLine.append(" ");
+		}
+		mySaveFile << stringLine;
 	}
 	mySaveFile.close();
 }

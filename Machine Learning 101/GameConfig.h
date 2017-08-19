@@ -24,8 +24,9 @@ public:
 
 	void GetValueFromList(int listPosition);
 	void InitPool();
-	bool OpenFile();
+	bool OpenFile(bool option);
 	void LoadFromFile();
+	void SaveToFile();
 	CString TransformValueToString();
 
 
@@ -33,7 +34,7 @@ public:
 private:
 
 	int sticksTaken;
-	ifstream mySaveFile;
+	fstream mySaveFile;
 	int GetRandomNumber(int maxNumber);
 };
 
