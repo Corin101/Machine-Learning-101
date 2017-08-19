@@ -5,6 +5,7 @@
 GameConfig::GameConfig()
 {
 	pool.resize(numberOfSticks);
+	InitPool(numberOfSticks);
 }
 
 
@@ -45,4 +46,25 @@ bool GameConfig::InitPool(int noOfSticks)
 bool GameConfig::LoadFromFile()
 {
 	return false;
+}
+
+void GameConfig::GetValueFromList(int listPosition)
+{
+	list<int>::iterator li = pool[listPosition].begin();
+	int size = pool[listPosition].size();
+	advance(li, GetRandomNumber(size));
+	sticksTaken = *li;
+}
+
+CString GameConfig::TransformValueToString()
+{
+	CString str;
+	str.Format(_T("%d"), sticksTaken);
+	return str;
+}
+
+int GameConfig::GetRandomNumber(int maxNumber)
+{
+	srand(time(NULL));
+	return rand() % maxNumber;
 }

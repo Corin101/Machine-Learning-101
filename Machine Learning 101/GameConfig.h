@@ -18,11 +18,18 @@ public:
 	string player2Name;
 	int numberOfSticks = STICKS;
 	bool VictoryCondition;
-	int sticksTaken;
 	vector<list<int> > pool;
 
-
+	void GetValueFromList(int listPosition);
 	bool InitPool(int noOfSticks);
 	bool LoadFromFile();
+	CString TransformValueToString();
+
+
+
+private:
+
+	int sticksTaken;
+	int GetRandomNumber(int maxNumber);
 };
 

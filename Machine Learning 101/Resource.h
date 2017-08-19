@@ -7,6 +7,7 @@
 #define IDB_BACKPCT                     129
 #define IDS_PLAYER1NAME                 130
 #define IDS_PLAYER2NAME                 131
+#define IDS_STICKSTAKEN                 132
 #define IDC_RULES                       1000
 #define IDC_RULESTEXT                   1001
 #define IDC_BUTTON1                     1002

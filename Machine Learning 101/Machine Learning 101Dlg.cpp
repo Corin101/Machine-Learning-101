@@ -147,10 +147,12 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 	else
 	{
 		GameConfig newGame;
-		bool test = newGame.InitPool(newGame.numberOfSticks);
+		newGame.GetValueFromList(12);
+		GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_STICKSTAKEN) + newGame.TransformValueToString());
 	}
 }
 
+// return text from String Table
 CString CMachineLearning101Dlg::LoadMyString(UINT nID)
 {
 	CString myString;
