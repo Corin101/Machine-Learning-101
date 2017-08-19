@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 
@@ -19,10 +20,12 @@ public:
 	int numberOfSticks = STICKS;
 	bool VictoryCondition;
 	vector<list<int> > pool;
+	
 
 	void GetValueFromList(int listPosition);
-	bool InitPool(int noOfSticks);
-	bool LoadFromFile();
+	void InitPool();
+	bool OpenFile();
+	void LoadFromFile();
 	CString TransformValueToString();
 
 
@@ -30,6 +33,7 @@ public:
 private:
 
 	int sticksTaken;
+	ifstream mySaveFile;
 	int GetRandomNumber(int maxNumber);
 };
 

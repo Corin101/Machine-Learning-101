@@ -5,7 +5,7 @@
 GameConfig::GameConfig()
 {
 	pool.resize(numberOfSticks);
-	InitPool(numberOfSticks);
+	InitPool();
 }
 
 
@@ -13,9 +13,10 @@ GameConfig::~GameConfig()
 {
 }
 
-bool GameConfig::InitPool(int noOfSticks)
+void GameConfig::InitPool()
 {
-	try {
+	if (!OpenFile())
+	{
 		for (size_t i = 0; i < pool.size(); ++i)
 		{
 			list<int>::iterator li = pool[i].begin();
@@ -35,17 +36,38 @@ bool GameConfig::InitPool(int noOfSticks)
 				pool[i].insert(li, 3);
 			}
 		}
-		return true;
 	}
-	catch (...)
-	{
-		return false;
-	}
+	else
+		LoadFromFile();
 }
 
-bool GameConfig::LoadFromFile()
+bool GameConfig::OpenFile()
 {
+	mySaveFile.open("C:\\Users\\Corin\\Documents\\Visual Studio 2017\\Projects\\Machine Learning 101\\Debug\\save.txt");
+	if (mySaveFile)
+		return true;
 	return false;
+}
+
+void GameConfig::LoadFromFile()
+{
+	for (size_t i = 0; i < pool.size(); ++i)
+	{
+		list<int>::iterator li = pool[i].begin();
+		string stringLine;
+
+		getline(mySaveFile, stringLine);
+		string::iterator it;
+		for (it = stringLine.begin(); it != stringLine.end(); it++)
+		{
+			if ((*it) == ' ')
+				continue;
+			
+			int value = *it - '0';
+			pool[i].insert(li, value);
+		}
+	}
+	mySaveFile.close();
 }
 
 void GameConfig::GetValueFromList(int listPosition)

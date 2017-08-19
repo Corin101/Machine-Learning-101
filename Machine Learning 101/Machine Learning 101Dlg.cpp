@@ -107,6 +107,20 @@ HCURSOR CMachineLearning101Dlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CMachineLearning101Dlg::ShowGameMenu()
+{
+	flag = TRUE;
+	AfxGetMainWnd()->Invalidate();
+	GetDlgItem(IDC_STATICPLAYER1)->ShowWindow(TRUE);
+	GetDlgItem(IDC_STATICPLAYER2)->ShowWindow(TRUE);
+	GetDlgItem(IDC_STATICSTARTINGPLAYER)->ShowWindow(TRUE);
+	GetDlgItem(IDC_PLAYER1NAME)->ShowWindow(TRUE);
+	GetDlgItem(IDC_PLAYER2NAME)->ShowWindow(TRUE);
+	GetDlgItem(IDC_CBBOXSTARTINGPLAYER)->ShowWindow(TRUE);
+	GetDlgItem(IDC_GAMEWINDOW)->ShowWindow(TRUE);
+	GetDlgItem(IDC_RULES)->ShowWindow(TRUE);
+}
+
 
 
 void CMachineLearning101Dlg::OnBnClickedRules()
@@ -133,21 +147,12 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 {
 	if (!flag)
 	{
-		flag = TRUE;
-		AfxGetMainWnd()->Invalidate();
-		GetDlgItem(IDC_STATICPLAYER1)->ShowWindow(TRUE);
-		GetDlgItem(IDC_STATICPLAYER2)->ShowWindow(TRUE);
-		GetDlgItem(IDC_STATICSTARTINGPLAYER)->ShowWindow(TRUE);
-		GetDlgItem(IDC_PLAYER1NAME)->ShowWindow(TRUE);
-		GetDlgItem(IDC_PLAYER2NAME)->ShowWindow(TRUE);
-		GetDlgItem(IDC_CBBOXSTARTINGPLAYER)->ShowWindow(TRUE);
-		GetDlgItem(IDC_GAMEWINDOW)->ShowWindow(TRUE);
-		GetDlgItem(IDC_RULES)->ShowWindow(TRUE);
+		ShowGameMenu();
 	}
 	else
 	{
 		GameConfig newGame;
-		newGame.GetValueFromList(12);
+		newGame.GetValueFromList(11);
 		GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_STICKSTAKEN) + newGame.TransformValueToString());
 	}
 }
