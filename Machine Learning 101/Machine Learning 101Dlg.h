@@ -4,6 +4,7 @@
 
 #pragma once
 #include "afxwin.h"
+#include "GameConfig.h"
 
 
 // CMachineLearning101Dlg dialog

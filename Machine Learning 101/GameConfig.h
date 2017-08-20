@@ -17,8 +17,11 @@ public:
 	~GameConfig();
 	string player1Name;
 	string player2Name;
+	bool Player1IsHuman;
+	bool Player2IsHuman;
 	int numberOfSticks = STICKS;
 	bool VictoryCondition;
+	bool isPlayer1Turn;
 	vector<list<int> > pool;
 	
 
@@ -28,7 +31,8 @@ public:
 	void LoadFromFile();
 	void SaveToFile();
 	CString TransformValueToString();
-
+	void PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isP2Human, bool isPlayer1First);
+	void ComputerTurn();
 
 
 private:

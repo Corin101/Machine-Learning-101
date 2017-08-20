@@ -110,6 +110,20 @@ CString GameConfig::TransformValueToString()
 	return str;
 }
 
+void GameConfig::PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isP2Human, bool isPlayer1First)
+{
+		player1Name = namePlayer1;
+		Player1IsHuman = isP1Human;
+		player2Name = namePlayer2;
+		Player2IsHuman = isP2Human;
+		isPlayer1Turn = isPlayer1First;
+}
+
+void GameConfig::ComputerTurn()
+{
+
+}
+
 int GameConfig::GetRandomNumber(int maxNumber)
 {
 	srand(time(NULL));
