@@ -154,6 +154,8 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 		GameConfig newGame;
 		newGame.GetValueFromList(11);
 		GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_STICKSTAKEN) + newGame.TransformValueToString());
+		list<int>::iterator li = newGame.pool[3].end();
+		newGame.pool[3].insert(li, 4);
 	}
 }
 

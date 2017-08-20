@@ -90,7 +90,7 @@ void GameConfig::SaveToFile()
 			stringLine.append(to_string(*li));
 			stringLine.append(" ");
 		}
-		mySaveFile << stringLine;
+		mySaveFile << stringLine << "\n";
 	}
 	mySaveFile.close();
 }
