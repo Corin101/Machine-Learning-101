@@ -17,22 +17,22 @@ public:
 	~GameConfig();
 	string player1Name;
 	string player2Name;
-	bool Player1IsHuman;
-	bool Player2IsHuman;
+	bool isPlayer1Human;
 	int numberOfSticks = STICKS;
-	bool VictoryCondition;
 	bool isPlayer1Turn;
 	vector<list<int> > pool;
+	vector<list<int> > tempPool;
 	
-
 	void GetValueFromList(int listPosition);
 	void InitPool();
 	bool OpenFile(bool option);
 	void LoadFromFile();
 	void SaveToFile();
 	CString TransformValueToString();
-	void PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isP2Human, bool isPlayer1First);
-	void ComputerTurn();
+	void PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isPlayer1First);
+	bool GameTurn(int sticks);
+	bool ValidateMove();
+	bool CheckVictoryCondition();
 
 
 private:

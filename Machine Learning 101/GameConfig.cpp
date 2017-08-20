@@ -5,6 +5,7 @@
 GameConfig::GameConfig()
 {
 	pool.resize(numberOfSticks);
+	tempPool.resize(numberOfSticks);
 	InitPool();
 }
 
@@ -110,18 +111,46 @@ CString GameConfig::TransformValueToString()
 	return str;
 }
 
-void GameConfig::PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isP2Human, bool isPlayer1First)
+void GameConfig::PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isPlayer1First)
 {
 		player1Name = namePlayer1;
-		Player1IsHuman = isP1Human;
+		isPlayer1Human = isP1Human;
 		player2Name = namePlayer2;
-		Player2IsHuman = isP2Human;
 		isPlayer1Turn = isPlayer1First;
 }
 
-void GameConfig::ComputerTurn()
-{
+bool GameConfig::GameTurn(int sticks)
+{	
+	if (isPlayer1Human)
+		sticksTaken = sticks;
+	else
+		GetValueFromList(numberOfSticks);
 
+	if (!ValidateMove())
+		return false;
+
+	list<int>::iterator li = tempPool[numberOfSticks].end();
+	tempPool[numberOfSticks].insert(li, sticksTaken);
+
+	isPlayer1Turn = !isPlayer1Turn;
+	numberOfSticks = numberOfSticks - sticksTaken;
+
+	CheckVictoryCondition();
+	return true;
+}
+
+bool GameConfig::ValidateMove()
+{
+	if (sticksTaken > numberOfSticks)
+		return false;
+	return true;
+}
+
+bool GameConfig::CheckVictoryCondition()
+{
+	if (numberOfSticks == 0)
+		return true;
+	return false;
 }
 
 int GameConfig::GetRandomNumber(int maxNumber)
