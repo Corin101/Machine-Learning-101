@@ -143,6 +143,8 @@ bool GameConfig::ValidateMove()
 {
 	if (sticksTaken > numberOfSticks)
 		return false;
+	if (sticksTaken > 3 && sticksTaken < 1)
+		return false;
 	return true;
 }
 
