@@ -122,13 +122,17 @@ void GameConfig::PlayerConfig(string namePlayer1, bool isP1Human, string namePla
 bool GameConfig::GameTurn(int sticks)
 {	
 
-	if (isPlayer1Human)
+	if (isPlayer1Human && isPlayer1Turn)
 	{
 		sticksTaken = sticks;
 		if (!ValidateMove())
 			return false;
 	}
-	else
+	if (!isPlayer1Human && isPlayer1Turn)
+	{
+		sticksTaken = GetRandomNumber(3);
+	}
+	if (!isPlayer1Turn)
 	{
 		GetValueFromList(numberOfSticks);
 		list<int>::iterator li = tempPool[numberOfSticks].end();
@@ -155,6 +159,13 @@ bool GameConfig::CheckVictoryCondition()
 	if (numberOfSticks == 0)
 		return true;
 	return false;
+}
+
+void GameConfig::EndGameLearning()
+{
+	if (!isPlayer1Turn) // computer wins
+	{
+	}
 }
 
 int GameConfig::GetRandomNumber(int maxNumber)

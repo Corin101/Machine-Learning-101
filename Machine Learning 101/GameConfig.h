@@ -33,6 +33,7 @@ public:
 	bool GameTurn(int sticks = 0);
 	bool ValidateMove();
 	bool CheckVictoryCondition();
+	void EndGameLearning();
 
 
 private:

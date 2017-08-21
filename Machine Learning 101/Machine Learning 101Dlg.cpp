@@ -153,12 +153,18 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 		GameConfig newGame;
 		GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_STICKSTAKEN) + newGame.TransformValueToString());
 		bool test = newGame.GameTurn(4);
+		newGame.isPlayer1Human = true;
+		newGame.isPlayer1Turn = true;
+		test = newGame.GameTurn(3);
+		newGame.isPlayer1Human = true;
+		newGame.isPlayer1Turn = false;
 		test = newGame.GameTurn(3);
 		newGame.isPlayer1Human = false;
-		test = newGame.GameTurn();
-		test = newGame.GameTurn();
-		test = newGame.GameTurn();
-		test = newGame.GameTurn();
+		newGame.isPlayer1Turn = true;
+		test = newGame.GameTurn(3);
+		newGame.isPlayer1Human = false;
+		newGame.isPlayer1Turn = false;
+		test = newGame.GameTurn(3);
 	}
 }
 
