@@ -163,8 +163,19 @@ bool GameConfig::CheckVictoryCondition()
 
 void GameConfig::EndGameLearning()
 {
-	if (!isPlayer1Turn) // computer wins
+	if (!isPlayer1Turn) // computer (P2)wins
 	{
+		list<int>::iterator li;
+		list<int>::iterator templi;
+		for (size_t i = 0; i < pool.size(); ++i)
+			if (tempPool[i].size() == 0)
+				continue;
+			else
+			{
+				li = pool[i].end();
+				templi = tempPool[i].begin();
+				pool[i].insert(li, *templi);
+			}
 	}
 }
 
