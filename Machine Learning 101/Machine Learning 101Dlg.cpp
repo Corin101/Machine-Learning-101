@@ -151,10 +151,14 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 	else
 	{
 		GameConfig newGame;
-		newGame.GetValueFromList(11);
 		GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_STICKSTAKEN) + newGame.TransformValueToString());
-		list<int>::iterator li = newGame.pool[3].end();
-		newGame.pool[3].insert(li, 4);
+		bool test = newGame.GameTurn(4);
+		test = newGame.GameTurn(3);
+		newGame.isPlayer1Human = false;
+		test = newGame.GameTurn();
+		test = newGame.GameTurn();
+		test = newGame.GameTurn();
+		test = newGame.GameTurn();
 	}
 }
 

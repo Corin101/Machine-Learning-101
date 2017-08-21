@@ -121,21 +121,23 @@ void GameConfig::PlayerConfig(string namePlayer1, bool isP1Human, string namePla
 
 bool GameConfig::GameTurn(int sticks)
 {	
+
 	if (isPlayer1Human)
+	{
 		sticksTaken = sticks;
+		if (!ValidateMove())
+			return false;
+	}
 	else
+	{
 		GetValueFromList(numberOfSticks);
-
-	if (!ValidateMove())
-		return false;
-
-	list<int>::iterator li = tempPool[numberOfSticks].end();
-	tempPool[numberOfSticks].insert(li, sticksTaken);
+		list<int>::iterator li = tempPool[numberOfSticks].end();
+		tempPool[numberOfSticks].insert(li, sticksTaken);
+	}
 
 	isPlayer1Turn = !isPlayer1Turn;
 	numberOfSticks = numberOfSticks - sticksTaken;
 
-	CheckVictoryCondition();
 	return true;
 }
 
@@ -143,7 +145,7 @@ bool GameConfig::ValidateMove()
 {
 	if (sticksTaken > numberOfSticks)
 		return false;
-	if (sticksTaken > 3 && sticksTaken < 1)
+	if (sticksTaken > 3 || sticksTaken < 1)
 		return false;
 	return true;
 }

@@ -30,7 +30,7 @@ public:
 	void SaveToFile();
 	CString TransformValueToString();
 	void PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isPlayer1First);
-	bool GameTurn(int sticks);
+	bool GameTurn(int sticks = 0);
 	bool ValidateMove();
 	bool CheckVictoryCondition();
 
