@@ -20,9 +20,12 @@ public:
 	bool isPlayer1Human;
 	int numberOfSticks = STICKS;
 	bool isPlayer1Turn;
+	struct Stats { int won; int lost; };
 	vector<list<int> > pool;
 	vector<list<int> > tempPool;
+	Stats gameStats;
 	
+
 	void GetValueFromList(int listPosition);
 	void InitPool();
 	bool OpenFile(bool option);
@@ -36,6 +39,8 @@ public:
 	void EndGameLearning();
 	void GameWonLearning();
 	void GameLostLearning();
+	Stats GetGameStatistic();
+
 
 
 private:

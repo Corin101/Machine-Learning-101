@@ -7,6 +7,7 @@ GameConfig::GameConfig()
 	pool.resize(numberOfSticks);
 	tempPool.resize(numberOfSticks);
 	InitPool();
+	gameStats = { 0, 0 };
 }
 
 
@@ -154,7 +155,13 @@ bool GameConfig::ValidateMove()
 bool GameConfig::CheckVictoryCondition()
 {
 	if (numberOfSticks == 0)
+	{
+		if (isPlayer1Turn)
+			gameStats.won++;
+		else
+			gameStats.lost++;
 		return true;
+	}
 	isPlayer1Turn = !isPlayer1Turn;
 	return false;
 }
@@ -210,6 +217,12 @@ void GameConfig::GameLostLearning()
 	}
 
 }
+
+GameConfig::Stats GameConfig::GetGameStatistic()
+{
+	return gameStats;
+}
+
 
 int GameConfig::GetRandomNumber(int maxNumber)
 {
