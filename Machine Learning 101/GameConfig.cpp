@@ -15,7 +15,8 @@ GameConfig::~GameConfig()
 {
 	SaveToFile();
 }
-
+//Initialize the pool for the game.If there is a saved game file(save.txt) than it initializes
+//values from the file, if there is no file, that it makes a starting initialization.
 void GameConfig::InitPool()
 {
 	if (!OpenFile(true))
@@ -57,7 +58,7 @@ bool GameConfig::OpenFile(bool option)
 		return true;
 	return false;
 }
-
+//Loads values from a saved file into a pool
 void GameConfig::LoadFromFile()
 {
 	for (size_t i = 0; i < pool.size(); ++i)
@@ -78,7 +79,7 @@ void GameConfig::LoadFromFile()
 	}
 	mySaveFile.close();
 }
-
+//Opens a file for writing and saves the current pool into a file
 void GameConfig::SaveToFile()
 {
 	OpenFile(false);
@@ -96,7 +97,7 @@ void GameConfig::SaveToFile()
 	}
 	mySaveFile.close();
 }
-
+//Gets a random number from a list at a specific position
 void GameConfig::GetValueFromList(int listPosition)
 {
 	list<int>::iterator li = pool[listPosition].begin();
@@ -104,14 +105,16 @@ void GameConfig::GetValueFromList(int listPosition)
 	advance(li, GetRandomNumber(size));
 	sticksTaken = *li;
 }
-
+//Prepares a value for display, this function was used for testing,
+//it does not belong here, but it might be needed later.
 CString GameConfig::TransformValueToString()
 {
 	CString str;
 	str.Format(_T("%d"), sticksTaken);
 	return str;
 }
-
+//Player configuration function, determines if there is a human player in the game,
+//and who goes first.Player names are not necessary, will probably be removed at a later time.
 void GameConfig::PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isPlayer1First)
 {
 		player1Name = namePlayer1;
@@ -119,10 +122,9 @@ void GameConfig::PlayerConfig(string namePlayer1, bool isP1Human, string namePla
 		player2Name = namePlayer2;
 		isPlayer1Turn = isPlayer1First;
 }
-
+//Player turn, different actions depending if a player is human or computer.
 bool GameConfig::GameTurn(int sticks)
 {	
-
 	if (isPlayer1Human && isPlayer1Turn)
 	{
 		sticksTaken = sticks;
@@ -142,7 +144,8 @@ bool GameConfig::GameTurn(int sticks)
 	numberOfSticks = numberOfSticks - sticksTaken;
 	return true;
 }
-
+//Move validation, the player is allowed to take only 1 – 3 sticks,
+//and cannot reduce the pool below 0 sticks.
 bool GameConfig::ValidateMove()
 {
 	if (sticksTaken > numberOfSticks)
@@ -151,29 +154,29 @@ bool GameConfig::ValidateMove()
 		return false;
 	return true;
 }
-
+//Game ends if the pool(numberOfSticks) reaches zero.Write if the game was won or lost.
+//Save what was learned into pool.
+//If the game did not end, change active player.
 bool GameConfig::CheckVictoryCondition()
 {
 	if (numberOfSticks == 0)
 	{
 		if (isPlayer1Turn)
+		{
 			gameStats.won++;
+			GameWonLearning();
+		}
 		else
+		{
 			gameStats.lost++;
+			GameLostLearning();
+		}
 		return true;
 	}
 	isPlayer1Turn = !isPlayer1Turn;
 	return false;
 }
-
-void GameConfig::EndGameLearning()
-{
-	if (isPlayer1Turn)
-		GameWonLearning();
-	else
-		GameLostLearning();
-}
-
+//If the game was won the computer “memorizes” that games moves.
 void GameConfig::GameWonLearning()
 {
 	list<int>::iterator li;
@@ -190,7 +193,7 @@ void GameConfig::GameWonLearning()
 		}
 	}
 }
-
+//If the game was lost the computer “forgets” that games moves
 void GameConfig::GameLostLearning()
 {
 	list<int>::iterator li;
@@ -215,15 +218,20 @@ void GameConfig::GameLostLearning()
 			}
 		}
 	}
-
 }
-
+//Returns game statistics, how many games were won and lost.
 GameConfig::Stats GameConfig::GetGameStatistic()
 {
 	return gameStats;
 }
+// Resets a game is a player wants to play again. Player that lost starts the game.
+void GameConfig::GameReset()
+{
+	numberOfSticks = STICKS;
+	tempPool.clear();
+}
 
-
+//Returns a random number between 0 and maxNumber
 int GameConfig::GetRandomNumber(int maxNumber)
 {
 	srand(time(NULL));

@@ -36,10 +36,10 @@ public:
 	bool GameTurn(int sticks = 0);
 	bool ValidateMove();
 	bool CheckVictoryCondition();
-	void EndGameLearning();
 	void GameWonLearning();
 	void GameLostLearning();
 	Stats GetGameStatistic();
+	void GameReset();
 
 
 
