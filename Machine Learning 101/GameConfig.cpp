@@ -138,10 +138,7 @@ bool GameConfig::GameTurn(int sticks)
 		list<int>::iterator li = tempPool[numberOfSticks].end();
 		tempPool[numberOfSticks].insert(li, sticksTaken);
 	}
-
-	isPlayer1Turn = !isPlayer1Turn;
 	numberOfSticks = numberOfSticks - sticksTaken;
-
 	return true;
 }
 
@@ -158,25 +155,60 @@ bool GameConfig::CheckVictoryCondition()
 {
 	if (numberOfSticks == 0)
 		return true;
+	isPlayer1Turn = !isPlayer1Turn;
 	return false;
 }
 
 void GameConfig::EndGameLearning()
 {
-	if (!isPlayer1Turn) // computer (P2)wins
+	if (isPlayer1Turn)
+		GameWonLearning();
+	else
+		GameLostLearning();
+}
+
+void GameConfig::GameWonLearning()
+{
+	list<int>::iterator li;
+	list<int>::iterator templi;
+	for (size_t i = 0; i < pool.size(); ++i)
 	{
-		list<int>::iterator li;
-		list<int>::iterator templi;
-		for (size_t i = 0; i < pool.size(); ++i)
-			if (tempPool[i].size() == 0)
-				continue;
-			else
-			{
-				li = pool[i].end();
-				templi = tempPool[i].begin();
-				pool[i].insert(li, *templi);
-			}
+		if (tempPool[i].size() == 0)
+			continue;
+		else
+		{
+			li = pool[i].end();
+			templi = tempPool[i].begin();
+			pool[i].insert(li, *templi);
+		}
 	}
+}
+
+void GameConfig::GameLostLearning()
+{
+	list<int>::iterator li;
+	list<int>::iterator templi;
+	for (size_t i = 0; i < pool.size(); ++i)
+	{
+		if (tempPool[i].size() == 0)
+			continue;
+		else
+		{
+			templi = tempPool[i].begin();
+			int count = 0;
+			for (li = pool[i].begin(); li != pool[i].end(); li++)
+			{
+				if (*li == *templi)
+					count++;
+				if (count > 1)
+				{
+					pool[i].erase(li);
+					break;
+				}					
+			}
+		}
+	}
+
 }
 
 int GameConfig::GetRandomNumber(int maxNumber)

@@ -34,6 +34,8 @@ public:
 	bool ValidateMove();
 	bool CheckVictoryCondition();
 	void EndGameLearning();
+	void GameWonLearning();
+	void GameLostLearning();
 
 
 private:

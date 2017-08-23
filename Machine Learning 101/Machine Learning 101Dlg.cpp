@@ -157,6 +157,8 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 		test = newGame.GameTurn(3);
 		test = newGame.GameTurn(3);
 		test = newGame.GameTurn(3);
+		test = newGame.GameTurn(3);
+		test = newGame.GameTurn(3);
 		newGame.isPlayer1Turn = false;
 		newGame.EndGameLearning();
 	}
