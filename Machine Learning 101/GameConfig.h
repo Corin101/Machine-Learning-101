@@ -13,10 +13,8 @@ using namespace std;
 class GameConfig
 {
 public:
-	GameConfig();
+	GameConfig(bool isP1Human = true, bool isPlayer1First= true);
 	~GameConfig();
-	string player1Name;
-	string player2Name;
 	bool isPlayer1Human;
 	int numberOfSticks = STICKS;
 	bool isPlayer1Turn;
@@ -32,7 +30,6 @@ public:
 	void LoadFromFile();
 	void SaveToFile();
 	CString TransformValueToString();
-	void PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isPlayer1First);
 	bool GameTurn(int sticks = 0);
 	bool ValidateMove();
 	bool CheckVictoryCondition();

@@ -21,6 +21,7 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
+	CString TransformValueToString(int value);
 
 
 // Implementation
@@ -40,5 +41,5 @@ public:
 	afx_msg void OnBnClickedStartgame();
 	CString LoadMyString(UINT nID);
 protected:
-	CComboBox CComboBox;
+	CComboBox PlayerSelection;
 };

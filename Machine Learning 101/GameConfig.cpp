@@ -2,11 +2,13 @@
 #include "GameConfig.h"
 
 
-GameConfig::GameConfig()
+GameConfig::GameConfig(bool isP1Human, bool isPlayer1First)
 {
 	pool.resize(numberOfSticks);
 	tempPool.resize(numberOfSticks);
 	InitPool();
+	isPlayer1Human = isP1Human;
+	isPlayer1Turn = isPlayer1First;
 	gameStats = { 0, 0 };
 }
 
@@ -113,21 +115,14 @@ CString GameConfig::TransformValueToString()
 	str.Format(_T("%d"), sticksTaken);
 	return str;
 }
-//Player configuration function, determines if there is a human player in the game,
-//and who goes first.Player names are not necessary, will probably be removed at a later time.
-void GameConfig::PlayerConfig(string namePlayer1, bool isP1Human, string namePlayer2, bool isPlayer1First)
-{
-		player1Name = namePlayer1;
-		isPlayer1Human = isP1Human;
-		player2Name = namePlayer2;
-		isPlayer1Turn = isPlayer1First;
-}
+
 //Player turn, different actions depending if a player is human or computer.
 bool GameConfig::GameTurn(int sticks)
 {	
 	if (isPlayer1Human && isPlayer1Turn)
 	{
 		sticksTaken = sticks;
+		numberOfSticks -= sticksTaken;
 		if (!ValidateMove())
 			return false;
 	}

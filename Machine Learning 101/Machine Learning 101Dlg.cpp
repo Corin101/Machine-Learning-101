@@ -25,7 +25,14 @@ CMachineLearning101Dlg::CMachineLearning101Dlg(CWnd* pParent /*=NULL*/)
 void CMachineLearning101Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_CBBOXSTARTINGPLAYER, CComboBox);
+	DDX_Control(pDX, IDC_CBBOXSTARTINGPLAYER, PlayerSelection);
+}
+
+CString CMachineLearning101Dlg::TransformValueToString(int value)
+{
+	CString str;
+	str.Format(_T("%d"), value);
+	return str;
 }
 
 BEGIN_MESSAGE_MAP(CMachineLearning101Dlg, CDialogEx)
@@ -47,9 +54,9 @@ BOOL CMachineLearning101Dlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	CComboBox.AddString(LoadMyString(IDS_PLAYER1NAME));
-	CComboBox.AddString(LoadMyString(IDS_PLAYER2NAME));
-	CComboBox.SetCurSel(0);
+	PlayerSelection.AddString(LoadMyString(IDS_PLAYER1NAME));
+	PlayerSelection.AddString(LoadMyString(IDS_PLAYER2NAME));
+	PlayerSelection.SetCurSel(0);
 	// TODO: Add extra initialization here
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -150,18 +157,19 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 	}
 	else
 	{
-		GameConfig newGame;
-		GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_STICKSTAKEN) + newGame.TransformValueToString());
-		bool test = newGame.GameTurn(4);
-		test = newGame.GameTurn(3);
-		test = newGame.GameTurn(3);
-		test = newGame.GameTurn(3);
-		test = newGame.GameTurn(3);
-		test = newGame.GameTurn(3);
-		test = newGame.GameTurn(3);
-		newGame.isPlayer1Turn = false;
-		newGame.EndGameLearning();
-	}
+
+		GameConfig newGame(PlayerSelection.GetCurSel(), true);
+		while(true)
+		{
+			if (!newGame.GameTurn(1))
+				continue;
+			if (newGame.CheckVictoryCondition())
+				break;
+		}
+
+		GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_WINNER) + TransformValueToString(newGame.gameStats.won));
+
+	} 
 }
 
 // return text from String Table
@@ -171,3 +179,4 @@ CString CMachineLearning101Dlg::LoadMyString(UINT nID)
 	myString.LoadString(nID);
 	return myString;
 }
+
