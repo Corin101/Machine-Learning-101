@@ -57,8 +57,7 @@ BOOL CMachineLearning101Dlg::OnInitDialog()
 	PlayerSelection.AddString(LoadMyString(IDS_PLAYER1NAME));
 	PlayerSelection.AddString(LoadMyString(IDS_PLAYER2NAME));
 	PlayerSelection.SetCurSel(0);
-	CWnd *group = GetDlgItem(IDC_GROUP);
-	group->GetParent()->CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
+	GetDlgItem(IDC_GROUP)->GetParent()->CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
 
 	// TODO: Add extra initialization here
 
@@ -128,6 +127,9 @@ void CMachineLearning101Dlg::ShowGameMenu()
 	GetDlgItem(IDC_CBBOXSTARTINGPLAYER)->ShowWindow(TRUE);
 	GetDlgItem(IDC_GAMEWINDOW)->ShowWindow(TRUE);
 	GetDlgItem(IDC_RULES)->ShowWindow(TRUE);
+	GetDlgItem(IDC_GROUP)->ShowWindow(TRUE);
+	GetDlgItem(IDC_RADIO1)->ShowWindow(TRUE);
+	GetDlgItem(IDC_RADIO2)->ShowWindow(TRUE);
 }
 
 
@@ -161,7 +163,7 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 	else
 	{
 
-		GameConfig newGame(PlayerSelection.GetCurSel(), true);
+		GameConfig newGame(PlayerSelection.GetCurSel(), IsDlgButtonChecked(IDC_RADIO1));
 		while(true)
 		{
 			if (!newGame.GameTurn(1))
