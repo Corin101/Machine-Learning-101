@@ -57,6 +57,9 @@ BOOL CMachineLearning101Dlg::OnInitDialog()
 	PlayerSelection.AddString(LoadMyString(IDS_PLAYER1NAME));
 	PlayerSelection.AddString(LoadMyString(IDS_PLAYER2NAME));
 	PlayerSelection.SetCurSel(0);
+	CWnd *group = GetDlgItem(IDC_GROUP);
+	group->GetParent()->CheckRadioButton(IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
+
 	// TODO: Add extra initialization here
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
