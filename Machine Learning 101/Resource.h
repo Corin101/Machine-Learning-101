@@ -13,6 +13,7 @@
 #define IDC_RULESTEXT                   1001
 #define IDC_BUTTON1                     1002
 #define IDC_STARTGAME                   1002
+#define IDC_GAMEOPTIONS                 1002
 #define IDC_BUTTON2                     1003
 #define IDC_EXITGAME                    1003
 #define IDC_GAMEWINDOW                  1004
@@ -29,6 +30,8 @@
 #define IDC_GROUP                       1013
 #define IDC_CHECK1                      1014
 #define IDC_RICHEDIT21                  1015
+#define IDC_BUTTON3                     1016
+#define IDC_GAMEBUTTON                  1016
 
 // Next default values for new objects
 // 
@@ -36,7 +39,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1016
+#define _APS_NEXT_CONTROL_VALUE         1017
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -36,7 +36,7 @@ public:
 	void GameWonLearning();
 	void GameLostLearning();
 	Stats GetGameStatistic();
-	void GameReset();
+	void GameReset(bool isP1Human = true, bool isPlayer1First = true);
 
 
 

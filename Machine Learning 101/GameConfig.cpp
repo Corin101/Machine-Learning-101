@@ -122,7 +122,6 @@ bool GameConfig::GameTurn(int sticks)
 	if (isPlayer1Human && isPlayer1Turn)
 	{
 		sticksTaken = sticks;
-		numberOfSticks -= sticksTaken;
 		if (!ValidateMove())
 			return false;
 	}
@@ -132,9 +131,9 @@ bool GameConfig::GameTurn(int sticks)
 	}
 	if (!isPlayer1Turn)
 	{
-		GetValueFromList(numberOfSticks);
-		list<int>::iterator li = tempPool[numberOfSticks].end();
-		tempPool[numberOfSticks].insert(li, sticksTaken);
+		GetValueFromList(numberOfSticks-1);
+		list<int>::iterator li = tempPool[numberOfSticks-1].end();
+		tempPool[numberOfSticks-1].insert(li, sticksTaken);
 	}
 	numberOfSticks = numberOfSticks - sticksTaken;
 	return true;
@@ -220,10 +219,13 @@ GameConfig::Stats GameConfig::GetGameStatistic()
 	return gameStats;
 }
 // Resets a game is a player wants to play again. Player that lost starts the game.
-void GameConfig::GameReset()
+void GameConfig::GameReset(bool isP1Human = true, bool isPlayer1First = true)
 {
 	numberOfSticks = STICKS;
 	tempPool.clear();
+	tempPool.resize(numberOfSticks);
+	isPlayer1Human = isP1Human;
+	isPlayer1Turn = isPlayer1First;
 }
 
 //Returns a random number between 0 and maxNumber

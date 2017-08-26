@@ -41,7 +41,8 @@ BEGIN_MESSAGE_MAP(CMachineLearning101Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_RULES, &CMachineLearning101Dlg::OnBnClickedRules)
 	ON_BN_CLICKED(IDC_EXITGAME, &CMachineLearning101Dlg::OnBnClickedExitgame)
-	ON_BN_CLICKED(IDC_STARTGAME, &CMachineLearning101Dlg::OnBnClickedStartgame)
+	ON_BN_CLICKED(IDC_GAMEOPTIONS, &CMachineLearning101Dlg::OnBnClickedGameOptions)
+	ON_BN_CLICKED(IDC_GAMEBUTTON, &CMachineLearning101Dlg::OnBnClickedGamebutton)
 END_MESSAGE_MAP()
 
 
@@ -118,7 +119,7 @@ HCURSOR CMachineLearning101Dlg::OnQueryDragIcon()
 
 void CMachineLearning101Dlg::ShowGameMenu()
 {
-	flag = TRUE;
+	flag = true;
 	AfxGetMainWnd()->Invalidate();
 	GetDlgItem(IDC_STATICPLAYER1)->ShowWindow(TRUE);
 	GetDlgItem(IDC_STATICPLAYER2)->ShowWindow(TRUE);
@@ -131,6 +132,8 @@ void CMachineLearning101Dlg::ShowGameMenu()
 	GetDlgItem(IDC_GROUP)->ShowWindow(TRUE);
 	GetDlgItem(IDC_RADIO1)->ShowWindow(TRUE);
 	GetDlgItem(IDC_RADIO2)->ShowWindow(TRUE);
+	GetDlgItem(IDC_GAMEBUTTON)->ShowWindow(TRUE);
+	GetDlgItem(IDC_GAMEOPTIONS)->ShowWindow(FALSE);
 }
 
 
@@ -155,27 +158,9 @@ void CMachineLearning101Dlg::OnBnClickedExitgame()
 }
 
 
-void CMachineLearning101Dlg::OnBnClickedStartgame()
+void CMachineLearning101Dlg::OnBnClickedGameOptions()
 {
-	if (!flag)
-	{
 		ShowGameMenu();
-	}
-	else
-	{
-
-		GameConfig newGame(!PlayerSelection.GetCurSel(), IsDlgButtonChecked(IDC_RADIO1));
-		while(true)
-		{
-			if (!newGame.GameTurn(1))
-				continue;
-			if (newGame.CheckVictoryCondition())
-				break;
-		}
-
-		GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_WINNER) + TransformValueToString(newGame.gameStats.won));
-
-	} 
 }
 
 // return text from String Table
@@ -186,3 +171,22 @@ CString CMachineLearning101Dlg::LoadMyString(UINT nID)
 	return myString;
 }
 
+
+
+void CMachineLearning101Dlg::OnBnClickedGamebutton()
+{
+	if (newGame == NULL)
+		newGame = new GameConfig(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
+	else
+		newGame->GameReset(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
+
+	while (true)
+	{
+		
+		if (!newGame->GameTurn(1))
+			continue;
+		if (newGame->CheckVictoryCondition())
+			break;
+	}
+	GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_WINNER) + TransformValueToString(newGame->gameStats.won));
+}

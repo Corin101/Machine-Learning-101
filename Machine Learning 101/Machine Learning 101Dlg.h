@@ -29,6 +29,7 @@ public:
 protected:
 	HICON m_hIcon;
 	BOOL flag = false;
+	GameConfig *newGame = NULL;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -39,7 +40,8 @@ protected:
 public:
 	afx_msg void OnBnClickedRules();
 	afx_msg void OnBnClickedExitgame();
-	afx_msg void OnBnClickedStartgame();
+	afx_msg void OnBnClickedGameOptions();
+	afx_msg void OnBnClickedGamebutton();
 	CString LoadMyString(UINT nID);
 protected:
 	CComboBox PlayerSelection;
