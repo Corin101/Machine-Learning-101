@@ -22,7 +22,7 @@ public:
 	vector<list<int> > pool;
 	vector<list<int> > tempPool;
 	Stats gameStats;
-	
+	int sticksTaken;
 
 	void GetValueFromList(int listPosition);
 	void InitPool();
@@ -38,11 +38,9 @@ public:
 	Stats GetGameStatistic();
 	void GameReset(bool isP1Human = true, bool isPlayer1First = true);
 
-
-
 private:
 
-	int sticksTaken;
+	
 	fstream mySaveFile;
 	int GetRandomNumber(int maxNumber);
 };

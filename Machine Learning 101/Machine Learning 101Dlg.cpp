@@ -171,8 +171,6 @@ CString CMachineLearning101Dlg::LoadMyString(UINT nID)
 	return myString;
 }
 
-
-
 void CMachineLearning101Dlg::OnBnClickedGamebutton()
 {
 	if (newGame == NULL)
@@ -181,12 +179,56 @@ void CMachineLearning101Dlg::OnBnClickedGamebutton()
 		newGame->GameReset(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
 
 	while (true)
-	{
-		
+	{		
 		if (!newGame->GameTurn(1))
 			continue;
 		if (newGame->CheckVictoryCondition())
 			break;
+		COLORREF color = RGB(255, 0, 0);
+		CString str = LoadMyString(IDS_STICKSTAKEN) + TransformValueToString(newGame->sticksTaken) + "\n";
+		WriteToGameWindow(str,color);
+		color = RGB(0,255, 0);
+		str = LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
+		WriteToGameWindow(str, color);
+		color = RGB(0, 0, 255);
+		str = LoadMyString(IDS_TAKESTICKS) + '\n';
+		WriteToGameWindow(str, color);
 	}
-	GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_WINNER) + TransformValueToString(newGame->gameStats.won));
+	//GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_WINNER) + TransformValueToString(newGame->gameStats.won));
+}
+
+void CMachineLearning101Dlg::WriteToGameWindow(CString textLine, COLORREF color)
+{
+	int oldLines = 0, newLines = 0, nScroll = 0;
+	long nInsertionPoint = 0;
+	CHARRANGE cr;
+	CHARFORMAT cf;
+
+	// Save number of lines before insertion of new text
+	oldLines = gameWindow.GetLineCount();
+
+	// Initialize character format structure
+	cf.cbSize = sizeof(CHARFORMAT);
+	cf.dwMask = CFM_COLOR;
+	cf.dwEffects = 0;	// To disable CFE_AUTOCOLOR
+	cf.crTextColor = color;
+
+	// Set insertion point to end of text
+	nInsertionPoint = gameWindow.GetWindowTextLength();
+	nInsertionPoint = -1;
+	gameWindow.SetSel(nInsertionPoint, -1);
+
+	//  Set the character format
+	gameWindow.SetSelectionCharFormat(cf);
+
+	// Replace selection. Because we have nothing selected, this will simply insert
+	// the string at the current caret position.
+	gameWindow.ReplaceSel(textLine);
+
+	// Get new line count
+	newLines = gameWindow.GetLineCount();
+
+	// Scroll by the number of lines just inserted
+	nScroll = newLines - oldLines;
+	gameWindow.LineScroll(nScroll);
 }

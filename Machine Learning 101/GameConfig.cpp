@@ -219,7 +219,7 @@ GameConfig::Stats GameConfig::GetGameStatistic()
 	return gameStats;
 }
 // Resets a game is a player wants to play again. Player that lost starts the game.
-void GameConfig::GameReset(bool isP1Human = true, bool isPlayer1First = true)
+void GameConfig::GameReset(bool isP1Human, bool isPlayer1First)
 {
 	numberOfSticks = STICKS;
 	tempPool.clear();

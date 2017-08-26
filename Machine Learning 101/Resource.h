@@ -9,6 +9,8 @@
 #define IDS_PLAYER2NAME                 131
 #define IDS_STICKSTAKEN                 132
 #define IDS_WINNER                      133
+#define IDS_STICKSLEFT                  134
+#define IDS_TAKESTICKS                  135
 #define IDC_RULES                       1000
 #define IDC_RULESTEXT                   1001
 #define IDC_BUTTON1                     1002

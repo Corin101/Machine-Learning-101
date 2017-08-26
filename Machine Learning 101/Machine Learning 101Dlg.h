@@ -30,6 +30,7 @@ protected:
 	HICON m_hIcon;
 	BOOL flag = false;
 	GameConfig *newGame = NULL;
+	CComboBox PlayerSelection;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -43,8 +44,8 @@ public:
 	afx_msg void OnBnClickedGameOptions();
 	afx_msg void OnBnClickedGamebutton();
 	CString LoadMyString(UINT nID);
-protected:
-	CComboBox PlayerSelection;
+	void WriteToGameWindow(CString textLine, COLORREF color);
+
 public:
 	CRichEditCtrl gameWindow;
 };
