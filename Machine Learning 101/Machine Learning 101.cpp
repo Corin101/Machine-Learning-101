@@ -36,6 +36,7 @@ CMachineLearning101App theApp;
 
 BOOL CMachineLearning101App::InitInstance()
 {
+//TODO: call AfxInitRichEdit2() to initialize richedit2 library.
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -50,6 +51,7 @@ BOOL CMachineLearning101App::InitInstance()
 
 
 	AfxEnableControlContainer();
+	AfxInitRichEdit2();
 
 	// Create the shell manager, in case the dialog contains
 	// any shell tree view or shell list view controls.

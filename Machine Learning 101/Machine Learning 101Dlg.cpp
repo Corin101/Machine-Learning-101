@@ -26,6 +26,7 @@ void CMachineLearning101Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_CBBOXSTARTINGPLAYER, PlayerSelection);
+	DDX_Control(pDX, IDC_GAMEWINDOW, gameWindow);
 }
 
 CString CMachineLearning101Dlg::TransformValueToString(int value)
@@ -163,7 +164,7 @@ void CMachineLearning101Dlg::OnBnClickedStartgame()
 	else
 	{
 
-		GameConfig newGame(PlayerSelection.GetCurSel(), IsDlgButtonChecked(IDC_RADIO1));
+		GameConfig newGame(!PlayerSelection.GetCurSel(), IsDlgButtonChecked(IDC_RADIO1));
 		while(true)
 		{
 			if (!newGame.GameTurn(1))

@@ -5,6 +5,7 @@
 #pragma once
 #include "afxwin.h"
 #include "GameConfig.h"
+#include "afxcmn.h"
 
 
 // CMachineLearning101Dlg dialog
@@ -42,4 +43,6 @@ public:
 	CString LoadMyString(UINT nID);
 protected:
 	CComboBox PlayerSelection;
+public:
+	CRichEditCtrl gameWindow;
 };
