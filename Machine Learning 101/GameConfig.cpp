@@ -15,7 +15,6 @@ GameConfig::GameConfig(bool isP1Human, bool isPlayer1First)
 
 GameConfig::~GameConfig()
 {
-	SaveToFile();
 }
 //Initialize the pool for the game.If there is a saved game file(save.txt) than it initializes
 //values from the file, if there is no file, that it makes a starting initialization.

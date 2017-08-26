@@ -154,6 +154,7 @@ void CMachineLearning101Dlg::OnBnClickedRules()
 
 void CMachineLearning101Dlg::OnBnClickedExitgame()
 {
+	newGame->SaveToFile();
 	EndDialog(TRUE);
 }
 
@@ -179,8 +180,9 @@ void CMachineLearning101Dlg::OnBnClickedGamebutton()
 		newGame->GameReset(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
 
 	while (true)
-	{		
-		if (!newGame->GameTurn(1))
+	{	
+		int numm = (rand() % 2) + 1;
+		if (!newGame->GameTurn(numm))
 			continue;
 		if (newGame->CheckVictoryCondition())
 			break;
