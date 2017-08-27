@@ -136,28 +136,18 @@ void CMachineLearning101Dlg::ShowGameMenu()
 	GetDlgItem(IDC_GAMEOPTIONS)->ShowWindow(FALSE);
 }
 
-
-
 void CMachineLearning101Dlg::OnBnClickedRules()
 {
 	CWnd *label = GetDlgItem(IDC_RULESTEXT);
-	if (!label->IsWindowVisible())
-	{
-		label->ShowWindow(TRUE);
-	}
-	else
-	{
-		label->ShowWindow(FALSE);
-	}
+	label->IsWindowVisible() ? label->ShowWindow(FALSE) : label->ShowWindow(TRUE);
 }
-
 
 void CMachineLearning101Dlg::OnBnClickedExitgame()
 {
-	newGame->SaveToFile();
+	if (newGame != NULL)
+		delete newGame;
 	EndDialog(TRUE);
 }
-
 
 void CMachineLearning101Dlg::OnBnClickedGameOptions()
 {

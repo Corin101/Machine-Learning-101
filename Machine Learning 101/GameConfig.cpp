@@ -10,11 +10,13 @@ GameConfig::GameConfig(bool isP1Human, bool isPlayer1First)
 	isPlayer1Human = isP1Human;
 	isPlayer1Turn = isPlayer1First;
 	gameStats = { 0, 0 };
+	srand(time(NULL));
 }
 
 
 GameConfig::~GameConfig()
 {
+	SaveToFile();
 }
 //Initialize the pool for the game.If there is a saved game file(save.txt) than it initializes
 //values from the file, if there is no file, that it makes a starting initialization.
@@ -50,10 +52,7 @@ void GameConfig::InitPool()
 //		- option == false - open file for writing
 bool GameConfig::OpenFile(bool option)
 {
-	if (option)
-		mySaveFile.open("save.txt",fstream::in);
-	else
-		mySaveFile.open("save.txt", fstream::out);
+	option ? mySaveFile.open("save.txt", fstream::in) : mySaveFile.open("save.txt", fstream::out);
 
 	if (mySaveFile)
 		return true;
@@ -230,6 +229,5 @@ void GameConfig::GameReset(bool isP1Human, bool isPlayer1First)
 //Returns a random number between 0 and maxNumber
 int GameConfig::GetRandomNumber(int maxNumber)
 {
-	srand(time(NULL));
 	return rand() % maxNumber;
 }
