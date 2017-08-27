@@ -27,6 +27,7 @@ void CMachineLearning101Dlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_CBBOXSTARTINGPLAYER, PlayerSelection);
 	DDX_Control(pDX, IDC_GAMEWINDOW, gameWindow);
+	DDX_Control(pDX, IDC_CHOICE, playerChoice);
 }
 
 CString CMachineLearning101Dlg::TransformValueToString(int value)
@@ -47,6 +48,7 @@ END_MESSAGE_MAP()
 
 
 // CMachineLearning101Dlg message handlers
+
 
 BOOL CMachineLearning101Dlg::OnInitDialog()
 {
@@ -169,6 +171,11 @@ void CMachineLearning101Dlg::OnBnClickedGamebutton()
 	else
 		newGame->GameReset(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
 
+	GetDlgItem(IDC_CHOICE)->ShowWindow(TRUE);
+	GetDlgItem(IDC_STATICSTICS)->ShowWindow(TRUE);
+	GetDlgItem(IDC_GAMEBUTTON)->EnableWindow(FALSE);
+
+
 	while (true)
 	{	
 		int numm = (rand() % 2) + 1;
@@ -223,4 +230,14 @@ void CMachineLearning101Dlg::WriteToGameWindow(CString textLine, COLORREF color)
 	// Scroll by the number of lines just inserted
 	nScroll = newLines - oldLines;
 	gameWindow.LineScroll(nScroll);
+}
+void CMachineLearning101Dlg::OnOK()
+{
+	if (GetFocus() == &playerChoice)
+	{
+		CString textValue;
+		int value;
+		playerChoice.GetWindowText(textValue);
+		value = _wtoi(textValue);
+	}
 }

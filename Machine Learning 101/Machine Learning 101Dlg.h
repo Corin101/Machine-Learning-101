@@ -31,6 +31,7 @@ protected:
 	BOOL flag = false;
 	GameConfig *newGame = NULL;
 	CComboBox PlayerSelection;
+	virtual void OnOK();
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -48,4 +49,5 @@ public:
 
 public:
 	CRichEditCtrl gameWindow;
+	CEdit playerChoice;
 };
