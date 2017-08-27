@@ -7,6 +7,8 @@
 #include "GameConfig.h"
 #include "afxcmn.h"
 
+#define red RGB(255, 0, 0);
+#define blue RGB(0, 0, 255);
 
 // CMachineLearning101Dlg dialog
 class CMachineLearning101Dlg : public CDialogEx
@@ -46,8 +48,12 @@ public:
 	afx_msg void OnBnClickedGamebutton();
 	CString LoadMyString(UINT nID);
 	void WriteToGameWindow(CString textLine, COLORREF color);
+	void WelcomeMessage();
 
 public:
 	CRichEditCtrl gameWindow;
 	CEdit playerChoice;
+private:
+	CEdit player1Name;
+	CEdit player2Name;
 };

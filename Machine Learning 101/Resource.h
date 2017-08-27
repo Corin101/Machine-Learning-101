@@ -11,6 +11,8 @@
 #define IDS_WINNER                      133
 #define IDS_STICKSLEFT                  134
 #define IDS_TAKESTICKS                  135
+#define IDS_SARTINGPLAYER               136
+#define IDS_STARTINGPLAYER              136
 #define IDC_RULES                       1000
 #define IDC_RULESTEXT                   1001
 #define IDC_BUTTON1                     1002

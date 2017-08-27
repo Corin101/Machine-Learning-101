@@ -28,6 +28,8 @@ void CMachineLearning101Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CBBOXSTARTINGPLAYER, PlayerSelection);
 	DDX_Control(pDX, IDC_GAMEWINDOW, gameWindow);
 	DDX_Control(pDX, IDC_CHOICE, playerChoice);
+	DDX_Control(pDX, IDC_PLAYER1NAME, player1Name);
+	DDX_Control(pDX, IDC_PLAYER2NAME, player2Name);
 }
 
 CString CMachineLearning101Dlg::TransformValueToString(int value)
@@ -174,26 +176,7 @@ void CMachineLearning101Dlg::OnBnClickedGamebutton()
 	GetDlgItem(IDC_CHOICE)->ShowWindow(TRUE);
 	GetDlgItem(IDC_STATICSTICS)->ShowWindow(TRUE);
 	GetDlgItem(IDC_GAMEBUTTON)->EnableWindow(FALSE);
-
-
-	while (true)
-	{	
-		int numm = (rand() % 2) + 1;
-		if (!newGame->GameTurn(numm))
-			continue;
-		if (newGame->CheckVictoryCondition())
-			break;
-		COLORREF color = RGB(255, 0, 0);
-		CString str = LoadMyString(IDS_STICKSTAKEN) + TransformValueToString(newGame->sticksTaken) + "\n";
-		WriteToGameWindow(str,color);
-		color = RGB(0,255, 0);
-		str = LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
-		WriteToGameWindow(str, color);
-		color = RGB(0, 0, 255);
-		str = LoadMyString(IDS_TAKESTICKS) + '\n';
-		WriteToGameWindow(str, color);
-	}
-	//GetDlgItem(IDC_GAMEWINDOW)->SetWindowText(LoadMyString(IDS_WINNER) + TransformValueToString(newGame->gameStats.won));
+	WelcomeMessage();
 }
 
 void CMachineLearning101Dlg::WriteToGameWindow(CString textLine, COLORREF color)
@@ -231,6 +214,21 @@ void CMachineLearning101Dlg::WriteToGameWindow(CString textLine, COLORREF color)
 	nScroll = newLines - oldLines;
 	gameWindow.LineScroll(nScroll);
 }
+void CMachineLearning101Dlg::WelcomeMessage()
+{
+	COLORREF color = red;
+	CString str;
+	str = LoadMyString(IDS_STARTINGPLAYER);
+	CString temp;
+	newGame->isPlayer1Turn ? player1Name.GetWindowText(temp) : player2Name.GetWindowText(temp);	
+	if (temp.IsEmpty())
+		newGame->isPlayer1Turn ? str += LoadMyString(IDS_PLAYER1NAME) : str += LoadMyString(IDS_PLAYER2NAME);
+	else
+		str.Append(temp);
+	str.AppendChar('\n');
+	WriteToGameWindow(str, color);
+}
+
 void CMachineLearning101Dlg::OnOK()
 {
 	if (GetFocus() == &playerChoice)
@@ -238,6 +236,28 @@ void CMachineLearning101Dlg::OnOK()
 		CString textValue;
 		int value;
 		playerChoice.GetWindowText(textValue);
-		value = _wtoi(textValue);
+		value = _wtoi(textValue); // Don't really care what i get here, validation is done by the game logic
+		GetDlgItem(IDC_CHOICE)->EnableWindow(FALSE);
+	
+
+		//while (true)
+		//{
+		//	int numm = (rand() % 2) + 1;
+		//	if (!newGame->GameTurn(numm))
+		//		continue;
+		//	if (newGame->CheckVictoryCondition())
+		//		break;
+		//	COLORREF color = RGB(255, 0, 0);
+		//	CString str = LoadMyString(IDS_STICKSTAKEN) + TransformValueToString(newGame->sticksTaken) + "\n";
+		//	WriteToGameWindow(str, color);
+		//	color = RGB(0, 255, 0);
+		//	str = LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
+		//	WriteToGameWindow(str, color);
+		//	color = RGB(0, 0, 255);
+		//	str = LoadMyString(IDS_TAKESTICKS) + '\n';
+		//	WriteToGameWindow(str, color);
+		//}
+	
+	
 	}
 }
