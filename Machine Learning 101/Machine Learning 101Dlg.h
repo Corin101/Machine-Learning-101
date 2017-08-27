@@ -8,7 +8,8 @@
 #include "afxcmn.h"
 
 #define red RGB(255, 0, 0);
-#define blue RGB(0, 0, 255);
+#define blue RGB(0, 0, 150);
+#define green RGB(0,100,0);
 
 // CMachineLearning101Dlg dialog
 class CMachineLearning101Dlg : public CDialogEx
@@ -49,6 +50,11 @@ public:
 	CString LoadMyString(UINT nID);
 	void WriteToGameWindow(CString textLine, COLORREF color);
 	void WelcomeMessage();
+	bool playATurn(int sticks);
+	void WrongMoveMsg();
+	void EndTurnMsg();
+	void EndGameMsg();
+	CString CheckForName(bool whichPlayer);
 
 public:
 	CRichEditCtrl gameWindow;

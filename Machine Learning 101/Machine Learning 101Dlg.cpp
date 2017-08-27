@@ -219,12 +219,71 @@ void CMachineLearning101Dlg::WelcomeMessage()
 	COLORREF color = red;
 	CString str;
 	str = LoadMyString(IDS_STARTINGPLAYER);
-	CString temp;
-	newGame->isPlayer1Turn ? player1Name.GetWindowText(temp) : player2Name.GetWindowText(temp);	
-	if (temp.IsEmpty())
-		newGame->isPlayer1Turn ? str += LoadMyString(IDS_PLAYER1NAME) : str += LoadMyString(IDS_PLAYER2NAME);
+	newGame->isPlayer1Turn ? str += CheckForName(true) : str += CheckForName(false);
+	str.AppendChar('\n');
+	WriteToGameWindow(str, color);
+}
+CString CMachineLearning101Dlg::CheckForName(bool whichPlayer)
+{
+	CString playerName;
+	whichPlayer ? player1Name.GetWindowText(playerName) : player2Name.GetWindowText(playerName);
+	if (playerName.IsEmpty())
+		return whichPlayer ? LoadMyString(IDS_PLAYER1NAME) : LoadMyString(IDS_PLAYER2NAME);
+	return playerName;
+}
+
+bool CMachineLearning101Dlg::playATurn(int sticks)
+{
+	if (!newGame->isPlayer1Turn)
+		newGame->GameTurn();
 	else
-		str.Append(temp);
+	{
+		if (!newGame->GameTurn(sticks))
+		{
+			WrongMoveMsg();
+			return false;
+		}
+	}
+	if (newGame->CheckVictoryCondition())
+	{
+		EndGameMsg();
+		return true;
+	}
+	EndTurnMsg();
+	return true;
+}
+
+void CMachineLearning101Dlg::WrongMoveMsg()
+{
+	COLORREF color = red;
+	CString str;
+	str = LoadMyString(IDS_WRONGAMOUNT);
+	WriteToGameWindow(str, color);
+	GetDlgItem(IDC_CHOICE)->EnableWindow(TRUE);
+}
+
+void CMachineLearning101Dlg::EndTurnMsg()
+{
+	COLORREF color = blue;
+	CString str;
+	str = LoadMyString(IDS_STICKSTAKEN);
+	newGame->isPlayer1Turn ? str += CheckForName(false) : str += CheckForName(true);
+	str += "\t\t\t";		
+	str	+= TransformValueToString(newGame->sticksTaken) + '\n';	
+	str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
+	if (newGame->isPlayer1Turn)
+		str += LoadMyString(IDS_TAKESTICKS);
+	WriteToGameWindow(str, color);
+	if (!newGame->isPlayer1Turn)
+		GetDlgItem(IDC_CHOICE)->EnableWindow(TRUE);
+}
+
+void CMachineLearning101Dlg::EndGameMsg()
+{
+	COLORREF color = green;
+	CString str;
+	str = LoadMyString(IDS_WINNER) + TransformValueToString(newGame->sticksTaken) + '\n';
+	newGame->isPlayer1Turn ? str += CheckForName(false) : str += CheckForName(true);
 	str.AppendChar('\n');
 	WriteToGameWindow(str, color);
 }
@@ -238,26 +297,8 @@ void CMachineLearning101Dlg::OnOK()
 		playerChoice.GetWindowText(textValue);
 		value = _wtoi(textValue); // Don't really care what i get here, validation is done by the game logic
 		GetDlgItem(IDC_CHOICE)->EnableWindow(FALSE);
-	
-
-		//while (true)
-		//{
-		//	int numm = (rand() % 2) + 1;
-		//	if (!newGame->GameTurn(numm))
-		//		continue;
-		//	if (newGame->CheckVictoryCondition())
-		//		break;
-		//	COLORREF color = RGB(255, 0, 0);
-		//	CString str = LoadMyString(IDS_STICKSTAKEN) + TransformValueToString(newGame->sticksTaken) + "\n";
-		//	WriteToGameWindow(str, color);
-		//	color = RGB(0, 255, 0);
-		//	str = LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
-		//	WriteToGameWindow(str, color);
-		//	color = RGB(0, 0, 255);
-		//	str = LoadMyString(IDS_TAKESTICKS) + '\n';
-		//	WriteToGameWindow(str, color);
-		//}
-	
-	
+		
+		if (playATurn(value))
+			playATurn(0);			
 	}
 }
