@@ -250,6 +250,7 @@ bool CMachineLearning101Dlg::playATurn(int sticks)
 			if (!newGame->GameTurn(sticks))
 			{
 				WrongMoveMsg();
+				playerChoice.SetFocus();
 				return false;
 			}
 		}
@@ -309,6 +310,7 @@ void CMachineLearning101Dlg::EndGameMsg()
 	str += CheckForName(false);
 	str += LoadMyString(IDS_STATS2) + TransformValueToString(newGame->gameStats.won) + _T("\n");
 	WriteToGameWindow(str, color);
+	GetDlgItem(IDC_PLAYAGAIN)->SetFocus();
 }
 
 void CMachineLearning101Dlg::OnOK()

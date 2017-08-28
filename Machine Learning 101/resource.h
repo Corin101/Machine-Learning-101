@@ -11,6 +11,11 @@
 #define IDS_WINNER                      133
 #define IDS_STICKSLEFT                  134
 #define IDS_TAKESTICKS                  135
+#define IDS_SARTINGPLAYER               136
+#define IDS_STARTINGPLAYER              136
+#define IDS_WRONGAMOUNT                 137
+#define IDS_STATS1                      138
+#define IDS_STATS2                      139
 #define IDC_RULES                       1000
 #define IDC_RULESTEXT                   1001
 #define IDC_BUTTON1                     1002
@@ -34,6 +39,10 @@
 #define IDC_RICHEDIT21                  1015
 #define IDC_BUTTON3                     1016
 #define IDC_GAMEBUTTON                  1016
+#define IDC_STATICSTICS                 1017
+#define IDC_CHOICE                      1018
+#define IDC_BUTTON4                     1019
+#define IDC_PLAYAGAIN                   1019
 
 // Next default values for new objects
 // 
@@ -41,7 +50,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1017
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
