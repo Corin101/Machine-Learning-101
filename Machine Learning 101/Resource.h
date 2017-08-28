@@ -14,6 +14,8 @@
 #define IDS_SARTINGPLAYER               136
 #define IDS_STARTINGPLAYER              136
 #define IDS_WRONGAMOUNT                 137
+#define IDS_STATS1                      138
+#define IDS_STATS2                      139
 #define IDC_RULES                       1000
 #define IDC_RULESTEXT                   1001
 #define IDC_BUTTON1                     1002

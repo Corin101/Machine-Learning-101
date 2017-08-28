@@ -224,7 +224,8 @@ void CMachineLearning101Dlg::WelcomeMessage()
 	str.AppendChar('\n');
 	str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
 	WriteToGameWindow(str, color);
-	if (!newGame->isPlayer1Turn)
+	playerChoice.SetFocus();
+	if (!newGame->isPlayer1Turn || !newGame->isPlayer1Human)
 		playATurn(0);
 }
 CString CMachineLearning101Dlg::CheckForName(bool whichPlayer)
@@ -238,24 +239,33 @@ CString CMachineLearning101Dlg::CheckForName(bool whichPlayer)
 
 bool CMachineLearning101Dlg::playATurn(int sticks)
 {
-	if (!newGame->isPlayer1Turn)
-		newGame->GameTurn();
-	else
+	while (true)
 	{
-		if (!newGame->GameTurn(sticks))
+		if (!newGame->isPlayer1Turn)
 		{
-			WrongMoveMsg();
+			newGame->GameTurn();
+		}
+		else
+		{
+			if (!newGame->GameTurn(sticks))
+			{
+				WrongMoveMsg();
+				return false;
+			}
+		}
+		if (newGame->CheckVictoryCondition())
+		{
+			EndGameMsg();
+			GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(TRUE);
 			return false;
 		}
-	}
-	if (newGame->CheckVictoryCondition())
-	{
-		EndGameMsg();
-		GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(TRUE);
-		return false;
-	}
-	EndTurnMsg();
-	return true;
+		else
+		{
+			EndTurnMsg();
+			if (newGame->isPlayer1Human)
+				return true;
+		}
+	}	
 }
 
 void CMachineLearning101Dlg::WrongMoveMsg()
@@ -288,11 +298,17 @@ void CMachineLearning101Dlg::EndGameMsg()
 {
 	COLORREF color = green;
 	CString str;
-	str = LoadMyString(IDS_WINNER) ;
+	str = LoadMyString(IDS_WINNER);
 	newGame->isPlayer1Turn ? str += CheckForName(false) : str += CheckForName(true);
 	str.AppendChar('\n');
 	WriteToGameWindow(str, color);
 	GetDlgItem(IDC_CHOICE)->EnableWindow(FALSE);
+	str = LoadMyString(IDS_STATS1);
+	str += CheckForName(true);
+	str += LoadMyString(IDS_STATS2) + TransformValueToString(newGame->gameStats.lost) + _T("\n\t\t");
+	str += CheckForName(false);
+	str += LoadMyString(IDS_STATS2) + TransformValueToString(newGame->gameStats.won) + _T("\n");
+	WriteToGameWindow(str, color);
 }
 
 void CMachineLearning101Dlg::OnOK()
@@ -315,5 +331,9 @@ void CMachineLearning101Dlg::OnBnClickedPlayagain()
 {
 	GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(FALSE);
 	OnBnClickedGamebutton();
-	GetDlgItem(IDC_CHOICE)->EnableWindow(TRUE);
+	if (newGame->isPlayer1Human)
+	{
+		GetDlgItem(IDC_CHOICE)->EnableWindow(TRUE);
+		playerChoice.SetFocus();
+	}
 }

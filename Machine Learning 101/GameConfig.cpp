@@ -125,7 +125,7 @@ bool GameConfig::GameTurn(int sticks)
 	}
 	if (!isPlayer1Human && isPlayer1Turn)
 	{
-		sticksTaken = GetRandomNumber(3);
+		numberOfSticks > 2 ? sticksTaken = GetRandomNumber(3) + 1 : sticksTaken = 1;
 	}
 	if (!isPlayer1Turn)
 	{
