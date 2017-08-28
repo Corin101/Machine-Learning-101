@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CMachineLearning101Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_EXITGAME, &CMachineLearning101Dlg::OnBnClickedExitgame)
 	ON_BN_CLICKED(IDC_GAMEOPTIONS, &CMachineLearning101Dlg::OnBnClickedGameOptions)
 	ON_BN_CLICKED(IDC_GAMEBUTTON, &CMachineLearning101Dlg::OnBnClickedGamebutton)
+	ON_BN_CLICKED(IDC_PLAYAGAIN, &CMachineLearning101Dlg::OnBnClickedPlayagain)
 END_MESSAGE_MAP()
 
 
@@ -221,7 +222,10 @@ void CMachineLearning101Dlg::WelcomeMessage()
 	str = LoadMyString(IDS_STARTINGPLAYER);
 	newGame->isPlayer1Turn ? str += CheckForName(true) : str += CheckForName(false);
 	str.AppendChar('\n');
+	str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
 	WriteToGameWindow(str, color);
+	if (!newGame->isPlayer1Turn)
+		playATurn(0);
 }
 CString CMachineLearning101Dlg::CheckForName(bool whichPlayer)
 {
@@ -247,7 +251,8 @@ bool CMachineLearning101Dlg::playATurn(int sticks)
 	if (newGame->CheckVictoryCondition())
 	{
 		EndGameMsg();
-		return true;
+		GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(TRUE);
+		return false;
 	}
 	EndTurnMsg();
 	return true;
@@ -276,16 +281,18 @@ void CMachineLearning101Dlg::EndTurnMsg()
 	WriteToGameWindow(str, color);
 	if (!newGame->isPlayer1Turn)
 		GetDlgItem(IDC_CHOICE)->EnableWindow(TRUE);
+	playerChoice.SetFocus();
 }
 
 void CMachineLearning101Dlg::EndGameMsg()
 {
 	COLORREF color = green;
 	CString str;
-	str = LoadMyString(IDS_WINNER) + TransformValueToString(newGame->sticksTaken) + '\n';
+	str = LoadMyString(IDS_WINNER) ;
 	newGame->isPlayer1Turn ? str += CheckForName(false) : str += CheckForName(true);
 	str.AppendChar('\n');
 	WriteToGameWindow(str, color);
+	GetDlgItem(IDC_CHOICE)->EnableWindow(FALSE);
 }
 
 void CMachineLearning101Dlg::OnOK()
@@ -297,8 +304,16 @@ void CMachineLearning101Dlg::OnOK()
 		playerChoice.GetWindowText(textValue);
 		value = _wtoi(textValue); // Don't really care what i get here, validation is done by the game logic
 		GetDlgItem(IDC_CHOICE)->EnableWindow(FALSE);
-		
+		playerChoice.SetWindowText(_T(""));
 		if (playATurn(value))
-			playATurn(0);			
+			playATurn(0);		
+
 	}
+}
+
+void CMachineLearning101Dlg::OnBnClickedPlayagain()
+{
+	GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(FALSE);
+	OnBnClickedGamebutton();
+	GetDlgItem(IDC_CHOICE)->EnableWindow(TRUE);
 }

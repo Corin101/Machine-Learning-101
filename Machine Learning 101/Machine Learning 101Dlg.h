@@ -62,4 +62,6 @@ public:
 private:
 	CEdit player1Name;
 	CEdit player2Name;
+public:
+	afx_msg void OnBnClickedPlayagain();
 };
