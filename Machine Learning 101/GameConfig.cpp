@@ -105,14 +105,6 @@ void GameConfig::GetValueFromList(int listPosition)
 	advance(li, GetRandomNumber(size));
 	sticksTaken = *li;
 }
-//Prepares a value for display, this function was used for testing,
-//it does not belong here, but it might be needed later.
-CString GameConfig::TransformValueToString()
-{
-	CString str;
-	str.Format(_T("%d"), sticksTaken);
-	return str;
-}
 
 //Player turn, different actions depending if a player is human or computer.
 bool GameConfig::GameTurn(int sticks)

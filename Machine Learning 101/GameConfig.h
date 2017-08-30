@@ -18,30 +18,26 @@ public:
 	bool isPlayer1Human;
 	int numberOfSticks = STICKS;
 	bool isPlayer1Turn;
-	struct Stats { int won; int lost; };
-	vector<list<int> > pool;
-	vector<list<int> > tempPool;
-	Stats gameStats;
 	int sticksTaken;
+	struct Stats { int won; int lost; };	
+	Stats gameStats;	
+	bool GameTurn(int sticks = 0);
+	bool ValidateMove();
+	bool CheckVictoryCondition();	
+	void GameReset(bool isP1Human = true, bool isPlayer1First = true);
 
+private:
+	vector<list<int> > pool;
+	vector<list<int> > tempPool;	
+	fstream mySaveFile;
+	int GetRandomNumber(int maxNumber);
 	void GetValueFromList(int listPosition);
 	void InitPool();
 	bool OpenFile(bool option);
 	void LoadFromFile();
 	void SaveToFile();
-	CString TransformValueToString();
-	bool GameTurn(int sticks = 0);
-	bool ValidateMove();
-	bool CheckVictoryCondition();
 	void GameWonLearning();
 	void GameLostLearning();
 	Stats GetGameStatistic();
-	void GameReset(bool isP1Human = true, bool isPlayer1First = true);
-
-private:
-
-	
-	fstream mySaveFile;
-	int GetRandomNumber(int maxNumber);
 };
 

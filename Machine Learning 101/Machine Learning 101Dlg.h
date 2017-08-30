@@ -27,7 +27,6 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	CString TransformValueToString(int value);
 
-
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -42,11 +41,16 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	void ShowGameMenu();
 	DECLARE_MESSAGE_MAP()
+
 public:
+	CRichEditCtrl gameWindow;
+	CEdit playerChoice;
+private:
 	afx_msg void OnBnClickedRules();
 	afx_msg void OnBnClickedExitgame();
 	afx_msg void OnBnClickedGameOptions();
 	afx_msg void OnBnClickedGamebutton();
+	afx_msg void OnBnClickedPlayagain();
 	CString LoadMyString(UINT nID);
 	void WriteToGameWindow(CString textLine, COLORREF color);
 	void WelcomeMessage();
@@ -55,13 +59,7 @@ public:
 	void EndTurnMsg();
 	void EndGameMsg();
 	CString CheckForName(bool whichPlayer);
-
-public:
-	CRichEditCtrl gameWindow;
-	CEdit playerChoice;
-private:
 	CEdit player1Name;
 	CEdit player2Name;
-public:
-	afx_msg void OnBnClickedPlayagain();
+
 };
