@@ -1,9 +1,11 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <list>
+#include <map>
 #include <vector>
 #include <fstream>
+#include <array>
+#include <sstream>
 using namespace std;
 
 
@@ -27,10 +29,11 @@ public:
 	void GameReset(bool isP1Human = true, bool isPlayer1First = true);
 
 private:
-	vector<list<int> > pool;
-	vector<list<int> > tempPool;	
+	vector<std::array<int, 3> > pool;
+	map <int, int> tempPool;
 	fstream mySaveFile;
-	int GetRandomNumber(int maxNumber);
+	int GetRandomNumber(int one, int two, int three);
+	int GetRandomNumberSimple(int maxNumber);
 	void GetValueFromList(int listPosition);
 	void InitPool();
 	bool OpenFile(bool option);
