@@ -175,11 +175,10 @@ void GameConfig::GameReset(bool isP1Human, bool isPlayer1First)
 //Returns a random number between 0 and maxNumber
 int GameConfig::GetRandomNumber(int one, int two, int three)
 {
-	vector<int> vect(one + two + three);
-	fill(vect.begin(), vect.begin() + one, 1);
-	fill(vect.begin() + one, vect.begin() + one + two, 2);
-	fill(vect.begin() + one + two, vect.end(), 3);
-	return vect[rand() % (one + two + three)];
+	int randNum = rand() % (one + two + three ) + 1;
+	if (randNum <= one)
+		return 1;
+	return randNum <= one + two ?  2 : 3;
 }
 
 int GameConfig::GetRandomNumberSimple(int maxNumber)
