@@ -178,6 +178,8 @@ void CMachineLearning101Dlg::OnBnClickedGamebutton()
 	GetDlgItem(IDC_STATICSTICS)->ShowWindow(TRUE);
 	GetDlgItem(IDC_GAMEBUTTON)->EnableWindow(FALSE);
 	WelcomeMessage();
+	if (!newGame->isPlayer1Turn || !newGame->isPlayer1Human)
+		playATurn(0);
 }
 
 void CMachineLearning101Dlg::WriteToGameWindow(CString textLine, COLORREF color)
@@ -225,8 +227,6 @@ void CMachineLearning101Dlg::WelcomeMessage()
 	str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
 	WriteToGameWindow(str, color);
 	playerChoice.SetFocus();
-	if (!newGame->isPlayer1Turn || !newGame->isPlayer1Human)
-		playATurn(0);
 }
 CString CMachineLearning101Dlg::CheckForName(bool whichPlayer)
 {
@@ -325,7 +325,6 @@ void CMachineLearning101Dlg::OnOK()
 		playerChoice.SetWindowText(_T(""));
 		if (playATurn(value))
 			playATurn(0);		
-
 	}
 }
 
