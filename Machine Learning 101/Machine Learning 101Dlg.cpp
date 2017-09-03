@@ -172,10 +172,7 @@ CString CMachineLearning101Dlg::LoadMyString(UINT nID)
 
 void CMachineLearning101Dlg::OnBnClickedGamebutton()
 {
-	GetDlgItem(IDC_CHOICE)->ShowWindow(TRUE);
-	GetDlgItem(IDC_STATICSTICS)->ShowWindow(TRUE);
-	GetDlgItem(IDC_GAMEBUTTON)->EnableWindow(FALSE);
-
+	ShowHumanInput();
 	if (IsDlgButtonChecked(IDC_RADIO1))
 		StartNewGame();
 	else
@@ -328,12 +325,14 @@ void CMachineLearning101Dlg::OnOK()
 {
 	if (GetFocus() == &playerChoice)
 	{
+		ShowHumanInput();
 		int value = GetValueFromEditControl(&playerChoice);
 		if (playATurn(value))
 			playATurn(0);		
 	}
 	if (GetFocus() == &autoGames)
 	{
+		ShowHumanInput();
 		int numberOfGames = GetValueFromEditControl(&autoGames);
 		for (int i = 0; i < numberOfGames; i++)
 			StartNewGame();
@@ -373,6 +372,13 @@ int CMachineLearning101Dlg::GetValueFromEditControl(CEdit *control)
 	control->GetWindowText(textValue);
 	control->SetWindowText(_T(""));
 	return numberOfGames = _wtoi(textValue);
+}
+
+void CMachineLearning101Dlg::ShowHumanInput()
+{
+	GetDlgItem(IDC_CHOICE)->ShowWindow(TRUE);
+	GetDlgItem(IDC_STATICSTICS)->ShowWindow(TRUE);
+	GetDlgItem(IDC_GAMEBUTTON)->EnableWindow(FALSE);
 }
 
 void CMachineLearning101Dlg::StartNewGame()

@@ -54,6 +54,7 @@ private:
 	CString LoadMyString(UINT nID);
 	void WriteToGameWindow(CString textLine, COLORREF color);
 	int GetValueFromEditControl(CEdit *control);
+	void ShowHumanInput();
 	void StartNewGame();
 	void WelcomeMessage();
 	bool playATurn(int sticks);
