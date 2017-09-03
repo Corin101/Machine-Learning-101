@@ -53,13 +53,19 @@ private:
 	afx_msg void OnBnClickedPlayagain();
 	CString LoadMyString(UINT nID);
 	void WriteToGameWindow(CString textLine, COLORREF color);
+	int GetValueFromEditControl(CEdit *control);
+	void StartNewGame();
 	void WelcomeMessage();
 	bool playATurn(int sticks);
 	void WrongMoveMsg();
 	void EndTurnMsg();
 	void EndGameMsg();
 	CString CheckForName(bool whichPlayer);
+	CEdit autoGames;
 	CEdit player1Name;
 	CEdit player2Name;
 
+public:
+	afx_msg void OnBnClickedRadio2();
+	afx_msg void OnBnClickedRadio1();
 };

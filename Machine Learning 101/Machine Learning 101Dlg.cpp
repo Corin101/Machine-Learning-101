@@ -30,6 +30,7 @@ void CMachineLearning101Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CHOICE, playerChoice);
 	DDX_Control(pDX, IDC_PLAYER1NAME, player1Name);
 	DDX_Control(pDX, IDC_PLAYER2NAME, player2Name);
+	DDX_Control(pDX, IDC_NOGAMES, autoGames);
 }
 
 CString CMachineLearning101Dlg::TransformValueToString(int value)
@@ -47,6 +48,8 @@ BEGIN_MESSAGE_MAP(CMachineLearning101Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_GAMEOPTIONS, &CMachineLearning101Dlg::OnBnClickedGameOptions)
 	ON_BN_CLICKED(IDC_GAMEBUTTON, &CMachineLearning101Dlg::OnBnClickedGamebutton)
 	ON_BN_CLICKED(IDC_PLAYAGAIN, &CMachineLearning101Dlg::OnBnClickedPlayagain)
+	ON_BN_CLICKED(IDC_RADIO2, &CMachineLearning101Dlg::OnBnClickedRadio2)
+	ON_BN_CLICKED(IDC_RADIO1, &CMachineLearning101Dlg::OnBnClickedRadio1)
 END_MESSAGE_MAP()
 
 
@@ -169,17 +172,22 @@ CString CMachineLearning101Dlg::LoadMyString(UINT nID)
 
 void CMachineLearning101Dlg::OnBnClickedGamebutton()
 {
-	if (newGame == NULL)
-		newGame = new GameConfig(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
-	else
-		newGame->GameReset(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
-
 	GetDlgItem(IDC_CHOICE)->ShowWindow(TRUE);
 	GetDlgItem(IDC_STATICSTICS)->ShowWindow(TRUE);
 	GetDlgItem(IDC_GAMEBUTTON)->EnableWindow(FALSE);
-	WelcomeMessage();
-	if (!newGame->isPlayer1Turn || !newGame->isPlayer1Human)
-		playATurn(0);
+
+	if (IsDlgButtonChecked(IDC_RADIO1))
+		StartNewGame();
+	else
+	{
+		CString textValue;
+		autoGames.GetWindowText(textValue);
+		if (textValue == "")
+			return;
+		int numberOfGames = GetValueFromEditControl(&autoGames);
+		for (int i = 0; i < numberOfGames; i++)
+			StartNewGame();
+	}
 }
 
 void CMachineLearning101Dlg::WriteToGameWindow(CString textLine, COLORREF color)
@@ -217,6 +225,7 @@ void CMachineLearning101Dlg::WriteToGameWindow(CString textLine, COLORREF color)
 	nScroll = newLines - oldLines;
 	gameWindow.LineScroll(nScroll);
 }
+
 void CMachineLearning101Dlg::WelcomeMessage()
 {
 	COLORREF color = red;
@@ -241,11 +250,7 @@ bool CMachineLearning101Dlg::playATurn(int sticks)
 {
 	while (true)
 	{
-		if (!newGame->isPlayer1Turn)
-		{
-			newGame->GameTurn();
-		}
-		else
+		if (newGame->isPlayer1Turn)
 		{
 			if (!newGame->GameTurn(sticks))
 			{
@@ -253,6 +258,10 @@ bool CMachineLearning101Dlg::playATurn(int sticks)
 				playerChoice.SetFocus();
 				return false;
 			}
+		}
+		else
+		{
+			newGame->GameTurn();
 		}
 		if (newGame->CheckVictoryCondition())
 		{
@@ -310,6 +319,8 @@ void CMachineLearning101Dlg::EndGameMsg()
 	str += CheckForName(false);
 	str += LoadMyString(IDS_STATS2) + TransformValueToString(newGame->gameStats.won) + _T("\n");
 	WriteToGameWindow(str, color);
+	GetDlgItem(IDC_RADIO1)->EnableWindow(TRUE);
+	GetDlgItem(IDC_RADIO2)->EnableWindow(TRUE);
 	GetDlgItem(IDC_PLAYAGAIN)->SetFocus();
 }
 
@@ -317,24 +328,76 @@ void CMachineLearning101Dlg::OnOK()
 {
 	if (GetFocus() == &playerChoice)
 	{
-		CString textValue;
-		int value;
-		playerChoice.GetWindowText(textValue);
-		value = _wtoi(textValue); // Don't really care what i get here, validation is done by the game logic
-		GetDlgItem(IDC_CHOICE)->EnableWindow(FALSE);
-		playerChoice.SetWindowText(_T(""));
+		int value = GetValueFromEditControl(&playerChoice);
 		if (playATurn(value))
 			playATurn(0);		
+	}
+	if (GetFocus() == &autoGames)
+	{
+		int numberOfGames = GetValueFromEditControl(&autoGames);
+		for (int i = 0; i < numberOfGames; i++)
+			StartNewGame();
+		autoGames.SetFocus();
 	}
 }
 
 void CMachineLearning101Dlg::OnBnClickedPlayagain()
 {
-	GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(FALSE);
-	OnBnClickedGamebutton();
-	if (newGame->isPlayer1Human)
+	if (IsDlgButtonChecked(IDC_RADIO1))
 	{
+		GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(FALSE);
 		GetDlgItem(IDC_CHOICE)->EnableWindow(TRUE);
 		playerChoice.SetFocus();
+		StartNewGame();
 	}
+	else
+	{
+		CString textValue;
+		autoGames.GetWindowText(textValue);
+		if (textValue == "")
+			return;
+		GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(FALSE);
+		GetDlgItem(IDC_CHOICE)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATICSTICS)->ShowWindow(TRUE);
+		GetDlgItem(IDC_GAMEBUTTON)->EnableWindow(FALSE);
+		int numberOfGames = GetValueFromEditControl(&autoGames);
+		for (int i = 0; i < numberOfGames; i++)
+			StartNewGame();
+		autoGames.SetFocus();
+	}
+}
+int CMachineLearning101Dlg::GetValueFromEditControl(CEdit *control)
+{
+	CString textValue;
+	int numberOfGames;
+	control->GetWindowText(textValue);
+	control->SetWindowText(_T(""));
+	return numberOfGames = _wtoi(textValue);
+}
+
+void CMachineLearning101Dlg::StartNewGame()
+{
+	GetDlgItem(IDC_RADIO1)->EnableWindow(FALSE);
+	GetDlgItem(IDC_RADIO2)->EnableWindow(FALSE);
+	if (newGame == NULL)
+		newGame = new GameConfig(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
+	else
+		newGame->GameReset(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
+	WelcomeMessage();
+	if (!newGame->isPlayer1Turn || !newGame->isPlayer1Human)
+		playATurn(0);
+
+}
+
+void CMachineLearning101Dlg::OnBnClickedRadio2()
+{
+	GetDlgItem(IDC_NOGAMES)->ShowWindow(TRUE);
+	GetDlgItem(IDC_STATICAUTOGAMES)->ShowWindow(TRUE);
+}
+
+
+void CMachineLearning101Dlg::OnBnClickedRadio1()
+{
+	GetDlgItem(IDC_NOGAMES)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATICAUTOGAMES)->ShowWindow(FALSE);
 }

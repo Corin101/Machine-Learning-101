@@ -43,6 +43,9 @@
 #define IDC_CHOICE                      1018
 #define IDC_BUTTON4                     1019
 #define IDC_PLAYAGAIN                   1019
+#define IDC_STATICAUTOGAMES             1020
+#define IDC_CHOICE2                     1021
+#define IDC_NOGAMES                     1021
 
 // Next default values for new objects
 // 
@@ -50,7 +53,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1020
+#define _APS_NEXT_CONTROL_VALUE         1023
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
