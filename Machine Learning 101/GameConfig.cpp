@@ -44,10 +44,7 @@ void GameConfig::InitPool()
 bool GameConfig::OpenFile(bool option)
 {
 	option ? mySaveFile.open("save.txt", fstream::in) : mySaveFile.open("save.txt", fstream::out);
-
-	if (mySaveFile)
-		return true;
-	return false;
+	return mySaveFile ? true : false;
 }
 //Loads values from a saved file into a pool
 bool GameConfig::LoadFromFile()
@@ -134,9 +131,7 @@ bool GameConfig::ValidateMove()
 {
 	if (sticksTaken > numberOfSticks)
 		return false;
-	if (sticksTaken > 3 || sticksTaken < 1)
-		return false;
-	return true;
+	return (sticksTaken > 3 || sticksTaken < 1) ? false : true;
 }
 //Game ends if the pool(numberOfSticks) reaches zero.Write if the game was won or lost.
 //Save what was learned into pool.
