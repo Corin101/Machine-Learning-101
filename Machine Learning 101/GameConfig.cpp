@@ -2,18 +2,24 @@
 #include "GameConfig.h"
 
 
-GameConfig::GameConfig(bool isP1Human, bool isPlayer1First)
+GameConfig::GameConfig()
 {
-	InitPool();
-	isPlayer1Human = isP1Human;
-	isPlayer1Turn = isPlayer1First;
-	gameStats = { 0, 0 };
-	srand(time(NULL));
+
 }
 
 GameConfig::~GameConfig()
 {
 	SaveToFile();
+}
+
+void GameConfig::GameSetter(bool isP1Human, bool isPlayer1First)
+{
+	InitPool();
+	isPlayer1Human = isP1Human;
+	isPlayer1Turn = isPlayer1First;
+	gameStats = { 0, 0 };
+	isGameReady = true;
+	srand(time(NULL));
 }
 
 //Initialize the pool for the game.If there is a saved game file(save.txt) than it initializes

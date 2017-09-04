@@ -152,8 +152,6 @@ void CMachineLearning101Dlg::OnBnClickedRules()
 
 void CMachineLearning101Dlg::OnBnClickedExitgame()
 {
-	if (newGame != NULL)
-		delete newGame;
 	EndDialog(TRUE);
 }
 
@@ -228,11 +226,11 @@ void CMachineLearning101Dlg::WelcomeMessage()
 	COLORREF color = red;
 	CString str;
 	str = LoadMyString(IDS_STARTINGPLAYER);
-	newGame->isPlayer1Turn ? str += CheckForName(true) : str += CheckForName(false);
+	newGame.isPlayer1Turn ? str += CheckForName(true) : str += CheckForName(false);
 	str.AppendChar('\n');
 	if (IsDlgButtonChecked(IDC_RADIO1))
 	{
-		str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
+		str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame.numberOfSticks) + '\n';
 		WriteToGameWindow(str, color);
 	}
 	playerChoice.SetFocus();
@@ -250,9 +248,9 @@ bool CMachineLearning101Dlg::playATurn(int sticks)
 {
 	while (true)
 	{
-		if (newGame->isPlayer1Turn)
+		if (newGame.isPlayer1Turn)
 		{
-			if (!newGame->GameTurn(sticks))
+			if (!newGame.GameTurn(sticks))
 			{
 				WrongMoveMsg();
 				playerChoice.SetFocus();
@@ -261,9 +259,9 @@ bool CMachineLearning101Dlg::playATurn(int sticks)
 		}
 		else
 		{
-			newGame->GameTurn();
+			newGame.GameTurn();
 		}
-		if (newGame->CheckVictoryCondition())
+		if (newGame.CheckVictoryCondition())
 		{
 			EndGameMsg();
 			GetDlgItem(IDC_PLAYAGAIN)->ShowWindow(TRUE);
@@ -273,7 +271,7 @@ bool CMachineLearning101Dlg::playATurn(int sticks)
 		{
 			if (IsDlgButtonChecked(IDC_RADIO1))
 			EndTurnMsg();
-			if (newGame->isPlayer1Human)
+			if (newGame.isPlayer1Human)
 				return true;
 		}
 	}	
@@ -293,14 +291,14 @@ void CMachineLearning101Dlg::EndTurnMsg()
 	COLORREF color = blue;
 	CString str;
 	str = LoadMyString(IDS_STICKSTAKEN);
-	newGame->isPlayer1Turn ? str += CheckForName(false) : str += CheckForName(true);
+	newGame.isPlayer1Turn ? str += CheckForName(false) : str += CheckForName(true);
 	str += "\t\t\t";		
-	str	+= TransformValueToString(newGame->sticksTaken) + '\n';	
-	str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
-	if (newGame->isPlayer1Turn)
+	str	+= TransformValueToString(newGame.sticksTaken) + '\n';	
+	str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame.numberOfSticks) + '\n';
+	if (newGame.isPlayer1Turn)
 		str += LoadMyString(IDS_TAKESTICKS);
 	WriteToGameWindow(str, color);
-	if (!newGame->isPlayer1Turn)
+	if (!newGame.isPlayer1Turn)
 		GetDlgItem(IDC_CHOICE)->EnableWindow(TRUE);
 	playerChoice.SetFocus();
 }
@@ -310,15 +308,15 @@ void CMachineLearning101Dlg::EndGameMsg()
 	COLORREF color = green;
 	CString str;
 	str = LoadMyString(IDS_WINNER);
-	newGame->isPlayer1Turn ? str += CheckForName(false) : str += CheckForName(true);
+	newGame.isPlayer1Turn ? str += CheckForName(false) : str += CheckForName(true);
 	str.AppendChar('\n');
 	WriteToGameWindow(str, color);
 	GetDlgItem(IDC_CHOICE)->EnableWindow(FALSE);
 	str = LoadMyString(IDS_STATS1);
 	str += CheckForName(true);
-	str += LoadMyString(IDS_STATS2) + TransformValueToString(newGame->gameStats.lost) + _T("\n\t\t");
+	str += LoadMyString(IDS_STATS2) + TransformValueToString(newGame.gameStats.lost) + _T("\n\t\t");
 	str += CheckForName(false);
-	str += LoadMyString(IDS_STATS2) + TransformValueToString(newGame->gameStats.won) + _T("\n");
+	str += LoadMyString(IDS_STATS2) + TransformValueToString(newGame.gameStats.won) + _T("\n");
 	WriteToGameWindow(str, color);
 	GetDlgItem(IDC_RADIO1)->EnableWindow(TRUE);
 	GetDlgItem(IDC_RADIO2)->EnableWindow(TRUE);
@@ -389,12 +387,12 @@ void CMachineLearning101Dlg::StartNewGame()
 {
 	GetDlgItem(IDC_RADIO1)->EnableWindow(FALSE);
 	GetDlgItem(IDC_RADIO2)->EnableWindow(FALSE);
-	if (newGame == NULL)
-		newGame = new GameConfig(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
+	if (newGame.isGameReady == false)
+		newGame.GameSetter(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
 	else
-		newGame->GameReset(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
+		newGame.GameReset(IsDlgButtonChecked(IDC_RADIO1), !PlayerSelection.GetCurSel());
 	WelcomeMessage();
-	if (!newGame->isPlayer1Turn || !newGame->isPlayer1Human)
+	if (!newGame.isPlayer1Turn || !newGame.isPlayer1Human)
 		playATurn(0);
 
 }

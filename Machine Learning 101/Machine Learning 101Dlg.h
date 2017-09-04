@@ -31,7 +31,7 @@ public:
 protected:
 	HICON m_hIcon;
 	BOOL flag = false;
-	GameConfig *newGame = NULL;
+	GameConfig newGame;
 	CComboBox PlayerSelection;
 	virtual void OnOK();
 

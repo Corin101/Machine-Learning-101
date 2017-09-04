@@ -15,8 +15,10 @@ using namespace std;
 class GameConfig
 {
 public:
-	GameConfig(bool isP1Human = true, bool isPlayer1First= true);
+	GameConfig();
 	~GameConfig();
+	bool isGameReady = false;
+	void GameSetter(bool isP1Human = true, bool isPlayer1First = true);
 	bool isPlayer1Human;
 	int numberOfSticks = STICKS;
 	bool isPlayer1Turn;
