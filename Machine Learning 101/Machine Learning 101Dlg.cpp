@@ -230,8 +230,11 @@ void CMachineLearning101Dlg::WelcomeMessage()
 	str = LoadMyString(IDS_STARTINGPLAYER);
 	newGame->isPlayer1Turn ? str += CheckForName(true) : str += CheckForName(false);
 	str.AppendChar('\n');
-	str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
-	WriteToGameWindow(str, color);
+	if (IsDlgButtonChecked(IDC_RADIO1))
+	{
+		str += LoadMyString(IDS_STICKSLEFT) + TransformValueToString(newGame->numberOfSticks) + '\n';
+		WriteToGameWindow(str, color);
+	}
 	playerChoice.SetFocus();
 }
 CString CMachineLearning101Dlg::CheckForName(bool whichPlayer)
@@ -268,6 +271,7 @@ bool CMachineLearning101Dlg::playATurn(int sticks)
 		}
 		else
 		{
+			if (IsDlgButtonChecked(IDC_RADIO1))
 			EndTurnMsg();
 			if (newGame->isPlayer1Human)
 				return true;
