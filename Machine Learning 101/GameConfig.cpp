@@ -20,10 +20,11 @@ GameConfig::~GameConfig()
 //values from the file, if there is no file, that it makes a starting initialization.
 void GameConfig::InitPool()
 {
-	if (OpenFile(true))
-		LoadFromFile();
+	if (OpenFile(true) && LoadFromFile())
+		return;
 	else
 	{
+		pool.clear();
 		for (size_t i = 0; i < 30; ++i)
 		{
 			array<int, 3> filler{ { 1,1,1 } };
@@ -43,24 +44,32 @@ bool GameConfig::OpenFile(bool option)
 	return false;
 }
 //Loads values from a saved file into a pool
-void GameConfig::LoadFromFile()
+bool GameConfig::LoadFromFile()
 {
-	for (size_t i = 0; i < 30; ++i)
-	{
-		string stringLine;
-		getline(mySaveFile, stringLine);
-		stringstream stream(stringLine);
-		array<int, 3> filler;
-		int fillerCounter = 0;
-		int value;
+	try {
+		for (size_t i = 0; i < 30; ++i)
+		{
+			string stringLine;
+			getline(mySaveFile, stringLine);
+			stringstream stream(stringLine);
+			array<int, 3> filler;
+			int fillerCounter = 0;
+			int value;
 
-		while (stream >> value) {
-			filler.at(fillerCounter) = value;
-			fillerCounter++;
+			while (stream >> value) {
+				filler.at(fillerCounter) = value;
+				fillerCounter++;
+			}
+			pool.push_back(filler);
 		}
-		pool.push_back(filler);
+		mySaveFile.close();
 	}
-	mySaveFile.close();
+	catch (exception)
+	{
+		mySaveFile.close();
+		return false;
+	}	
+
 }
 //Opens a file for writing and saves the current pool into a file
 void GameConfig::SaveToFile()

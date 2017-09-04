@@ -37,7 +37,7 @@ private:
 	void GetValueFromList(int listPosition);
 	void InitPool();
 	bool OpenFile(bool option);
-	void LoadFromFile();
+	bool LoadFromFile();
 	void SaveToFile();
 	void GameWonLearning();
 	void GameLostLearning();
